@@ -1,0 +1,58 @@
+# This file will automatically update with entries for new content after a build and reload
+
+Items: {
+	啊: {
+		DisplayName: 啊
+		Tooltip: ""
+	}
+
+	MysticGoldenBroadsword: {
+		DisplayName: 秘金剑
+		Tooltip: 使用注入神秘魔法的金锭制成
+	}
+
+	MysteryGel: {
+		DisplayName: 秘境凝胶
+		Tooltip: 稀有的秘境史莱姆身上的凝胶
+	}
+
+	GelLens: {
+		DisplayName: 凝胶透镜
+		Tooltip:
+			'''
+			放入凝胶以生产魔能
+			凝胶：20，粉凝胶：30，秘境凝胶：115
+			'''
+	}
+
+	MysteryGelDye: {
+		DisplayName: 秘境染料
+		Tooltip: 嗯！秘境的味道~
+	}
+
+	EsotericKeyStaff: {
+		DisplayName: 秘传钥杖
+		Tooltip: 召唤3个一组的秘境守护程序，仅能存在一组，会随着占用召唤栏位数而增强
+	}
+
+	TheDiceOfTheCreator: {
+		DisplayName: 造物者的骰子
+		Tooltip: 开始掷骰子的游戏吧
+	}
+}
+
+Projectiles: {
+	MysticGoldenBroadswordSlash.DisplayName: 秘金闪耀
+	EsotericGuardian.DisplayName: 秘境守护程序
+	EsotericGuardianSlash.DisplayName: 镭射切割
+	EsotericGuardianController.DisplayName: 秘境守护者核心
+	EsotericGuardianBullet.DisplayName: 秘境凝胶弹
+	EsotericGuardianMagicBall.DisplayName: 秘境凝胶球
+}
+
+Buffs: {
+	EsotericGuardianBuff: {
+		DisplayName: 秘境守护程序
+		Description: 秘境的守护者为你而战
+	}
+}

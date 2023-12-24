@@ -1,0 +1,54 @@
+# This file will automatically update with entries for new content after a build and reload
+
+Items: {
+	啊: {
+		DisplayName: 啊
+		Tooltip: ""
+	}
+
+	MysticGoldenBroadsword: {
+		DisplayName: Mystic Golden Broadsword
+		Tooltip: ""
+	}
+
+	MysteryGel: {
+		DisplayName: Mystery Gel
+		Tooltip: ""
+	}
+
+	GelLens: {
+		DisplayName: Gel Lens
+		Tooltip: ""
+	}
+
+	MysteryGelDye: {
+		DisplayName: Mystery Gel Dye
+		Tooltip: ""
+	}
+
+	EsotericKeyStaff: {
+		DisplayName: Esoteric Key Staff
+		Tooltip: ""
+	}
+
+	TheDiceOfTheCreator: {
+		DisplayName: The Dice Of The Creator
+		Tooltip: ""
+	}
+}
+
+Projectiles: {
+	MysticGoldenBroadswordSlash.DisplayName: Mystic Golden Broadsword Slash
+	EsotericGuardian.DisplayName: Esoteric Guardian
+	EsotericGuardianSlash.DisplayName: Esoteric Guardian Slash
+	EsotericGuardianController.DisplayName: Esoteric Guardian Controller
+	EsotericGuardianBullet.DisplayName: Esoteric Guardian Bullet
+	EsotericGuardianMagicBall.DisplayName: Esoteric Guardian Magic Ball
+}
+
+Buffs: {
+	EsotericGuardianBuff: {
+		DisplayName: Esoteric Guardian Buff
+		Description: Mods.CoraliteExtension.Buffs.EsotericGuardianBuff.Description
+	}
+}
