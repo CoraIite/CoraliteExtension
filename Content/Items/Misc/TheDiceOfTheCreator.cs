@@ -7,9 +7,9 @@ using Terraria.ModLoader;
 
 namespace CoraliteExtension.Content.Items.Misc
 {
-    public class TheDiceOfTheCreator:ModItem
+    public class TheDiceOfTheCreator : ModItem
     {
-        public override string Texture => AssetDirectoryEX.MiscItems+Name;
+        public override string Texture => AssetDirectoryEX.MiscItems + Name;
 
         public override void SetDefaults()
         {
