@@ -152,7 +152,7 @@ namespace CoraliteExtension.Content.Items.Melee
         public static Asset<Texture2D> WarpTexture;
         public static Asset<Texture2D> GradientTexture;
 
-        public MysticGoldenBroadswordSlash() : base(new Vector2(50, 50).ToRotation(), trailLength: 38) { }
+        public MysticGoldenBroadswordSlash() : base(new Vector2(60, 60).ToRotation(), trailLength: 38) { }
 
         public int delay;
         public int alpha;
@@ -181,7 +181,7 @@ namespace CoraliteExtension.Content.Items.Melee
         {
             Projectile.localNPCHitCooldown = 48;
             Projectile.width = 40;
-            Projectile.height = 80;
+            Projectile.height = 90;
             trailTopWidth = -6;
             distanceToOwner = 4;
             minTime = 0;

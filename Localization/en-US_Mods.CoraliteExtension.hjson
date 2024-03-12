@@ -35,6 +35,11 @@ Items: {
 		DisplayName: The Dice Of The Creator
 		Tooltip: ""
 	}
+
+	CthulhuFlyingShield: {
+		DisplayName: Cthulhu Flying Shield
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -44,6 +49,8 @@ Projectiles: {
 	EsotericGuardianController.DisplayName: Esoteric Guardian Controller
 	EsotericGuardianBullet.DisplayName: Esoteric Guardian Bullet
 	EsotericGuardianMagicBall.DisplayName: Esoteric Guardian Magic Ball
+	CthulhuFlyingShieldGuard.DisplayName: Cthulhu Flying Shield Guard
+	CthulhuFlyingShieldProj.DisplayName: Cthulhu Flying Shield Proj
 }
 
 Buffs: {

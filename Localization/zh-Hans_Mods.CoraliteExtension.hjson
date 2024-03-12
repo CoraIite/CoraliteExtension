@@ -39,6 +39,11 @@ Items: {
 		DisplayName: 造物者的骰子
 		Tooltip: 开始掷骰子的游戏吧
 	}
+
+	CthulhuFlyingShield: {
+		DisplayName: 克苏鲁飞盾
+		Tooltip: 右键以转换为原版饰品
+	}
 }
 
 Projectiles: {
@@ -48,6 +53,8 @@ Projectiles: {
 	EsotericGuardianController.DisplayName: 秘境守护者核心
 	EsotericGuardianBullet.DisplayName: 秘境凝胶弹
 	EsotericGuardianMagicBall.DisplayName: 秘境凝胶球
+	CthulhuFlyingShieldGuard.DisplayName: Cthulhu Flying Shield Guard
+	CthulhuFlyingShieldProj.DisplayName: Cthulhu Flying Shield Proj
 }
 
 Buffs: {
