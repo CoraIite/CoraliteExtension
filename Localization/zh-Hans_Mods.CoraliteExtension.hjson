@@ -42,7 +42,11 @@ Items: {
 
 	CthulhuFlyingShield: {
 		DisplayName: 克苏鲁飞盾
-		Tooltip: 右键以转换为原版饰品
+		Tooltip:
+			'''
+			盾牌回收是生成克苏鲁之眼仆从
+			[c/4f80bd:物品栏内右键以转换为原版饰品]
+			'''
 	}
 }
 
@@ -53,8 +57,9 @@ Projectiles: {
 	EsotericGuardianController.DisplayName: 秘境守护者核心
 	EsotericGuardianBullet.DisplayName: 秘境凝胶弹
 	EsotericGuardianMagicBall.DisplayName: 秘境凝胶球
-	CthulhuFlyingShieldGuard.DisplayName: Cthulhu Flying Shield Guard
-	CthulhuFlyingShieldProj.DisplayName: Cthulhu Flying Shield Proj
+	CthulhuFlyingShieldGuard.DisplayName: 克苏鲁飞盾
+	CthulhuFlyingShieldProj.DisplayName: 克苏鲁飞盾
+	SmallCthulhuEye.DisplayName: 克苏鲁之眼仆从
 }
 
 Buffs: {

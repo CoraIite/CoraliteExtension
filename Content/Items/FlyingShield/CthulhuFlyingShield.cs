@@ -6,6 +6,7 @@ using Coralite.Helpers;
 using CoraliteExtension.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -31,12 +32,15 @@ namespace CoraliteExtension.Content.Items.FlyingShield
         }
 
         public override bool CanRightClick() => true;
-        public override bool ConsumeItem(Player player) => false;
 
         public override void RightClick(Player player)
         {
             Item.SetDefaults(ItemID.EoCShield);
             Item.stack = 2;
+            if (Item.TryGetGlobalItem(out FlyingShieldGlobalItem fsgi))
+            {
+                fsgi.justTransformed = true;
+            }
         }
 
         public void UpdateBuffHeldItem(Player player)
@@ -89,7 +93,7 @@ namespace CoraliteExtension.Content.Items.FlyingShield
 
         public override void SetOtherValues()
         {
-            flyingTime = 20;
+            flyingTime = 25;
             backTime = 6;
             backSpeed = 14.5f;
             trailCachesLength = 9;
@@ -110,6 +114,12 @@ namespace CoraliteExtension.Content.Items.FlyingShield
             base.OnHitNPC(target, hit, damageDone);
         }
 
+        public override void OnKill(int timeLeft)
+        {
+            Projectile.NewProjectileFromThis<SmallCthulhuEye>(Projectile.Center
+                , Projectile.velocity.SafeNormalize(Vector2.Zero).RotateByRandom(-0.2f,0.2f) * 2, (int)(Projectile.damage * 3f), Projectile.knockBack / 2);
+        }
+
         public override void DrawTrails(Color lightColor)
         {
             Texture2D mainTex = Projectile.GetTexture();
@@ -124,6 +134,74 @@ namespace CoraliteExtension.Content.Items.FlyingShield
         public override Color GetColor(float factor)
         {
             return Color.DarkRed * factor;
+        }
+    }
+
+    public class SmallCthulhuEye : ModProjectile
+    {
+        public override string Texture => AssetDirectoryEX.FlyingShieldItems + Name;
+
+        ref float Timer => ref Projectile.ai[1];
+
+        public override void SetDefaults()
+        {
+            Projectile.width = Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 200;
+        }
+
+        public override void AI()
+        {
+            if (++Projectile.frameCounter>4)
+            {
+                Projectile.frameCounter = 0;
+                if (Projectile.frame == 0)
+                    Projectile.frame = 1;
+                else
+                    Projectile.frame = 0;
+            }
+
+            if (Projectile.ai[0] == 0)
+            {
+                const int flyingTime = 60;
+                if (Helper.TryFindClosestEnemy(Projectile.Center, 800, n => n.CanBeChasedBy() && Projectile.localNPCImmunity.IndexInRange(n.whoAmI) && Projectile.localNPCImmunity[n.whoAmI] == 0, out NPC target))
+                {
+                    float selfAngle = Projectile.velocity.ToRotation();
+                    float targetAngle = (target.Center - Projectile.Center).ToRotation();
+                    float speed = Projectile.velocity.Length();
+                    if (speed < 12)
+                    {
+                        speed += 0.5f;
+                    }
+                    Projectile.velocity = selfAngle.AngleLerp(targetAngle, Math.Clamp(Coralite.Coralite.Instance.X2Smoother.Smoother(Timer / flyingTime), 0, 1f)).ToRotationVector2() * speed;
+                }
+
+                Projectile.rotation = Projectile.velocity.ToRotation();
+                Timer++;
+                if (Timer > 60)
+                {
+                    Projectile.ai[0]++;
+                    Projectile.tileCollide = true;
+                }
+            }
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            Vector2 direction = -Vector2.UnitY;
+            for (int i = 0; i < 10; i++)
+                Dust.NewDustPerfect(Projectile.Center, DustID.Blood, direction.RotatedBy(Main.rand.NextFloat(-0.8f, 0.8f)) * Main.rand.NextFloat(2f, 4f),
+                    Scale: Main.rand.NextFloat(1f, 2f));
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D mainTex = Projectile.GetTexture();
+            var frameBox = mainTex.Frame(1, 2, 0, Projectile.frame);
+            Main.spriteBatch.Draw(mainTex, Projectile.Center - Main.screenPosition, frameBox, lightColor, Projectile.rotation - 1.57f, frameBox.Size() / 2, Projectile.scale, 0, 0); ;
+
+            return false;
         }
     }
 
