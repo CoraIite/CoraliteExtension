@@ -13,22 +13,30 @@ Items: {
 
 	MysteryGel: {
 		DisplayName: Mystery Gel
-		Tooltip: ""
+		Tooltip: The gel on the rare Mystery Slime
 	}
 
 	GelLens: {
 		DisplayName: Gel Lens
-		Tooltip: ""
+		Tooltip:
+			'''
+			Put in the gel to produce magike
+			Gel：20，pink gel：30，mystery gel：115
+			'''
 	}
 
 	MysteryGelDye: {
 		DisplayName: Mystery Gel Dye
-		Tooltip: ""
+		Tooltip: Well! The taste of the secret realm~
 	}
 
 	EsotericKeyStaff: {
 		DisplayName: Esoteric Key Staff
-		Tooltip: ""
+		Tooltip:
+			'''
+			Summon a group of 3 secret daemons, only one group can exist,
+			and will increase as the number of summon slots is occupied
+			'''
 	}
 
 	TheDiceOfTheCreator: {
@@ -38,7 +46,11 @@ Items: {
 
 	CthulhuFlyingShield: {
 		DisplayName: Cthulhu Flying Shield
-		Tooltip: ""
+		Tooltip:
+			'''
+			When the shield is recovered, the Eye of Cthulhu minion spawns
+			[c/4f80bd:Right-click in your inventory to convert to vanilla accessory]
+			'''
 	}
 }
 
@@ -56,7 +68,7 @@ Projectiles: {
 
 Buffs: {
 	EsotericGuardianBuff: {
-		DisplayName: Esoteric Guardian Buff
-		Description: Mods.CoraliteExtension.Buffs.EsotericGuardianBuff.Description
+		DisplayName: Uncharted Daemon
+		Description: The Guardians of the Realm fight for you
 	}
 }

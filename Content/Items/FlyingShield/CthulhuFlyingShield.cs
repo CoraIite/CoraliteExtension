@@ -27,7 +27,7 @@ namespace CoraliteExtension.Content.Items.FlyingShield
             Item.shoot = ModContent.ProjectileType<CthulhuFlyingShieldProj>();
             Item.knockBack = 8;
             Item.shootSpeed = 14.5f;
-            Item.damage = 27;
+            Item.damage = 25;
             Item.expert = true;
         }
 
