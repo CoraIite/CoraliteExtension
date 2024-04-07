@@ -1,7 +1,7 @@
 ﻿using Coralite.Content.ModPlayers;
 using Coralite.Core;
 using Coralite.Core.Prefabs.Items;
-using Coralite.Core.Prefabs.Projectiles;
+using Coralite.Core.Systems.FlyingShieldSystem;
 using Coralite.Helpers;
 using CoraliteExtension.Core;
 using Microsoft.Xna.Framework;
@@ -179,7 +179,7 @@ namespace CoraliteExtension.Content.Items.FlyingShield
 
                 Projectile.rotation = Projectile.velocity.ToRotation();
                 Timer++;
-                if (Timer > 60)
+                if (Timer > 20)
                 {
                     Projectile.ai[0]++;
                     Projectile.tileCollide = true;
