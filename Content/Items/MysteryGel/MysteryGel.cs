@@ -82,46 +82,46 @@ namespace CoraliteExtension.Content.Items.MysteryGel
         }
     }
 
-    public class MysteryGelParticle : ModParticle
+    public class MysteryGelParticle : Particle
     {
         public override string Texture => AssetDirectoryEX.Particles + Name;
 
-        public override void OnSpawn(Particle particle)
+        public override void OnSpawn()
         {
-            particle.shouldKilledOutScreen = false;
-            particle.frame = new Rectangle(Main.rand.Next(2) * 10, Main.rand.Next(2) * 10, 10, 10);
-            particle.rotation = Main.rand.NextFloat(6.282f);
+            shouldKilledOutScreen = false;
+            Frame = new Rectangle(Main.rand.Next(2) * 10, Main.rand.Next(2) * 10, 10, 10);
+            Rotation = Main.rand.NextFloat(6.282f);
         }
 
-        public override void Update(Particle particle)
+        public override void Update()
         {
-            particle.fadeIn++;
+            fadeIn++;
 
-            if (particle.fadeIn % 25 == 0)
-                if (particle.frame.Y < 20)
-                    particle.frame.Y += 10;
+            if (fadeIn % 25 == 0)
+                if (Frame.Y < 20)
+                    Frame.Y += 10;
 
-            switch (particle.frame.Y)
+            switch (Frame.Y)
             {
                 default:
                 case 0:
-                    particle.rotation += 0.1f;
+                    Rotation += 0.1f;
                     break;
                 case 10:
-                    particle.rotation += 0.2f;
+                    Rotation += 0.2f;
                     if (Main.rand.NextBool(3))
                     {
-                        particle.velocity = particle.velocity.RotatedBy(Main.rand.NextFloat(-0.2f, 0.2f));
+                        Velocity = Velocity.RotatedBy(Main.rand.NextFloat(-0.2f, 0.2f));
                     }
                     break;
                 case 20:
-                    particle.scale *= 0.9f;
-                    particle.velocity *= 0.99f;
+                    Scale *= 0.9f;
+                    Velocity *= 0.99f;
                     break;
             }
 
-            if (particle.scale < 0.001 || particle.fadeIn > 100)
-                particle.active = false;
+            if (Scale < 0.001 || fadeIn > 100)
+                active = false;
         }
     }
 

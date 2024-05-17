@@ -55,7 +55,7 @@ namespace CoraliteExtension.Content.Items.FlyingShield
         }
     }
 
-    public class CthulhuFlyingShieldPlayer:ModPlayer
+    public class CthulhuFlyingShieldPlayer : ModPlayer
     {
         public bool handEocShield;
 
@@ -153,7 +153,7 @@ namespace CoraliteExtension.Content.Items.FlyingShield
 
         public override void AI()
         {
-            if (++Projectile.frameCounter>4)
+            if (++Projectile.frameCounter > 4)
             {
                 Projectile.frameCounter = 0;
                 if (Projectile.frame == 0)
@@ -179,11 +179,10 @@ namespace CoraliteExtension.Content.Items.FlyingShield
 
                 Projectile.rotation = Projectile.velocity.ToRotation();
                 Timer++;
-                if (Timer > 20)
-                {
-                    Projectile.ai[0]++;
+                if (Timer == 20)
                     Projectile.tileCollide = true;
-                }
+                else if (Timer == 60)
+                    Projectile.ai[0]++;
             }
         }
 

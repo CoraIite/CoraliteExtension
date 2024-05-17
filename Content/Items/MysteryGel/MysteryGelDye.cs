@@ -19,7 +19,7 @@ namespace CoraliteExtension.Content.Items.MysteryGel
             if (!Main.dedServ)
             {
                 GameShaders.Armor.BindShader(Item.type
-                    , new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/GelFlower", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value), "ArmorMyShader"));
+                    , new ArmorShaderData(CoraliteExtension.Instance.Assets.Request<Effect>("Effects/GelFlower", ReLogic.Content.AssetRequestMode.ImmediateLoad), "ArmorMyShader"));
             }
         }
 
