@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Coralite.Content.Items.FlyingShields.Accessories;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CoraliteExtension.Content.Items.FlyingShield
@@ -12,11 +14,19 @@ namespace CoraliteExtension.Content.Items.FlyingShield
 
         public string LocalizationCategory => "EXSystem";
 
+        public static LocalizedText FlyingShieldExchange;
+
+        public override void Load()
+        {
+            FlyingShieldExchange = this.GetLocalization("TransformTips", () => "[c/4f80bd:物品栏内右键以转换为飞盾]");
+        }
+
         public override bool CanRightClick(Item item)
         {
             return item.type switch
             {
                 ItemID.EoCShield => true,
+                ItemID.CobaltShield => true,
                 _ => base.CanRightClick(item),
             };
         }
@@ -37,6 +47,10 @@ namespace CoraliteExtension.Content.Items.FlyingShield
                     item.SetDefaults(ModContent.ItemType<CthulhuFlyingShield>());
                     item.stack = 2;
                     break;
+                case ItemID.CobaltShield:
+                    item.SetDefaults(ModContent.ItemType<CobaltFlyingShield>());
+                    item.stack = 2;
+                    break;
             }
         }
 
@@ -47,8 +61,9 @@ namespace CoraliteExtension.Content.Items.FlyingShield
                 default:
                     break;
                 case ItemID.EoCShield:
+                case ItemID.CobaltShield:
                     {
-                        TooltipLine line = new TooltipLine(Mod, "TransformTips", this.GetLocalization("TransformTips",()=> "[c/4f80bd:物品栏内右键以转换为飞盾]").Value);
+                        TooltipLine line = new TooltipLine(Mod, "TransformTips", FlyingShieldExchange.Value);
                         tooltips.Add(line);
                     }
                     break;

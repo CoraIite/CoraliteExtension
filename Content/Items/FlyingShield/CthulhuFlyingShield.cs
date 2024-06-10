@@ -3,6 +3,7 @@ using Coralite.Core;
 using Coralite.Core.Prefabs.Items;
 using Coralite.Core.Systems.FlyingShieldSystem;
 using Coralite.Helpers;
+using CoraliteExtension.Content.ModPlayers;
 using CoraliteExtension.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,7 +28,7 @@ namespace CoraliteExtension.Content.Items.FlyingShield
             Item.shoot = ModContent.ProjectileType<CthulhuFlyingShieldProj>();
             Item.knockBack = 8;
             Item.shootSpeed = 14.5f;
-            Item.damage = 25;
+            Item.damage = 23;
             Item.expert = true;
         }
 
@@ -51,23 +52,7 @@ namespace CoraliteExtension.Content.Items.FlyingShield
         public override void HoldItem(Player player)
         {
             if (player.ItemTimeIsZero && player.ownedProjectileCounts[Item.shoot] == 0)
-                player.GetModPlayer<CthulhuFlyingShieldPlayer>().handEocShield = true;
-        }
-    }
-
-    public class CthulhuFlyingShieldPlayer : ModPlayer
-    {
-        public bool handEocShield;
-
-        public override void ResetEffects()
-        {
-            handEocShield = false;
-        }
-
-        public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
-        {
-            if (handEocShield)
-                drawInfo.drawPlayer.shield = 5;
+                player.GetModPlayer<CoraliteEXPlayer>().AddEffect(nameof(CthulhuFlyingShield));
         }
     }
 
@@ -117,7 +102,7 @@ namespace CoraliteExtension.Content.Items.FlyingShield
         public override void OnKill(int timeLeft)
         {
             Projectile.NewProjectileFromThis<SmallCthulhuEye>(Projectile.Center
-                , Projectile.velocity.SafeNormalize(Vector2.Zero).RotateByRandom(-0.2f,0.2f) * 2, (int)(Projectile.damage * 3f), Projectile.knockBack / 2);
+                , Projectile.velocity.SafeNormalize(Vector2.Zero).RotateByRandom(-0.2f,0.2f) * 2, (int)(Projectile.damage * 2f), Projectile.knockBack / 2);
         }
 
         public override void DrawTrails(Color lightColor)

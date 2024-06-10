@@ -52,6 +52,11 @@ Items: {
 			[c/4f80bd:Right-click in your inventory to convert to vanilla accessory]
 			'''
 	}
+
+	CobaltFlyingShield: {
+		DisplayName: Cobalt Flying Shield
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -64,6 +69,8 @@ Projectiles: {
 	CthulhuFlyingShieldGuard.DisplayName: Cthulhu Flying Shield Guard
 	CthulhuFlyingShieldProj.DisplayName: Cthulhu Flying Shield Proj
 	SmallCthulhuEye.DisplayName: Small Cthulhu Eye
+	CobaltFlyingShieldGuard.DisplayName: Cobalt Flying Shield Guard
+	CobaltFlyingShieldProj.DisplayName: Cobalt Flying Shield Proj
 }
 
 Buffs: {
@@ -72,3 +79,5 @@ Buffs: {
 		Description: The Guardians of the Realm fight for you
 	}
 }
+
+EXSystem.FlyingShieldGlobalItem.TransformTips: "[c/4f80bd:物品栏内右键以转换为飞盾]"

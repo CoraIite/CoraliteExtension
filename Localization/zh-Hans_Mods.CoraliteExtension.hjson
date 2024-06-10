@@ -48,6 +48,16 @@ Items: {
 			[c/4f80bd:物品栏内右键以转换为原版饰品]
 			'''
 	}
+
+	CobaltFlyingShield: {
+		DisplayName: 钴飞盾
+		Tooltip:
+			'''
+			手持时+1防御力并免疫击退
+			+1 飞盾上限，+1飞盾弹跳次数
+			[c/4f80bd:物品栏内右键以转换为原版饰品]
+			'''
+	}
 }
 
 Projectiles: {
@@ -60,6 +70,8 @@ Projectiles: {
 	CthulhuFlyingShieldGuard.DisplayName: 克苏鲁飞盾
 	CthulhuFlyingShieldProj.DisplayName: 克苏鲁飞盾
 	SmallCthulhuEye.DisplayName: 克苏鲁之眼仆从
+	// CobaltFlyingShieldGuard.DisplayName: Cobalt Flying Shield Guard
+	// CobaltFlyingShieldProj.DisplayName: Cobalt Flying Shield Proj
 }
 
 Buffs: {
@@ -68,3 +80,5 @@ Buffs: {
 		Description: 秘境的守护者为你而战
 	}
 }
+
+// EXSystem.FlyingShieldGlobalItem.TransformTips: "[c/4f80bd:物品栏内右键以转换为飞盾]"
