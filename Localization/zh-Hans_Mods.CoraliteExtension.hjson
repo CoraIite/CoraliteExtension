@@ -58,6 +58,15 @@ Items: {
 			[c/4f80bd:物品栏内右键以转换为原版饰品]
 			'''
 	}
+
+	CobaltSwordAndShield: {
+		DisplayName: 钴剑盾
+		Tooltip:
+			'''
+			左键单击快速挥舞，长按蓄力并射出剑气
+			防御可以取消蓄力攻击的后摇
+			'''
+	}
 }
 
 Projectiles: {
@@ -72,6 +81,9 @@ Projectiles: {
 	SmallCthulhuEye.DisplayName: 克苏鲁之眼仆从
 	// CobaltFlyingShieldGuard.DisplayName: Cobalt Flying Shield Guard
 	// CobaltFlyingShieldProj.DisplayName: Cobalt Flying Shield Proj
+	// CobaltFlyingShieldPlusProj.DisplayName: Cobalt Flying Shield Plus Proj
+	// CobaltShieldPlusGuard.DisplayName: Cobalt Shield Plus Guard
+	// CobaltSwordSlash.DisplayName: Cobalt Sword Slash
 }
 
 Buffs: {

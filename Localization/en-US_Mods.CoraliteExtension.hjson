@@ -57,6 +57,11 @@ Items: {
 		DisplayName: Cobalt Flying Shield
 		Tooltip: ""
 	}
+
+	CobaltSwordAndShield: {
+		DisplayName: Cobalt Sword And Shield
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -71,6 +76,9 @@ Projectiles: {
 	SmallCthulhuEye.DisplayName: Small Cthulhu Eye
 	CobaltFlyingShieldGuard.DisplayName: Cobalt Flying Shield Guard
 	CobaltFlyingShieldProj.DisplayName: Cobalt Flying Shield Proj
+	CobaltFlyingShieldPlusProj.DisplayName: Cobalt Flying Shield Plus Proj
+	CobaltShieldPlusGuard.DisplayName: Cobalt Shield Plus Guard
+	CobaltSwordSlash.DisplayName: Cobalt Sword Slash
 }
 
 Buffs: {

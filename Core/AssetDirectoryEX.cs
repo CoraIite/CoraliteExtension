@@ -8,6 +8,7 @@
         public const string MeleeItems = Items + "Melee/";
         public const string MiscItems = Items + "Misc/";
         public const string FlyingShieldItems = Items + "FlyingShield/";
+        public const string FlyingShieldPlusItems = Items + "FlyingShieldPlus/";
         public const string MysteryGelItems = Items + "MysteryGel/";
         public const string MagikeItems = Items + "Magike/";
 

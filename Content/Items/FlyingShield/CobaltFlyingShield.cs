@@ -1,5 +1,4 @@
 ﻿using Coralite.Content.ModPlayers;
-using Coralite.Core.Prefabs.Items;
 using Coralite.Core.Systems.FlyingShieldSystem;
 using CoraliteExtension.Content.ModPlayers;
 using CoraliteExtension.Core;
