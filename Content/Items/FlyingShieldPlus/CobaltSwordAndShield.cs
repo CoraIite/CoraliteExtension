@@ -1,6 +1,10 @@
-﻿using Coralite.Core;
+﻿using Coralite.Content.Items.FlyingShields;
+using Coralite.Content.Particles;
+using Coralite.Core;
+using Coralite.Core.Configs;
 using Coralite.Core.Prefabs.Projectiles;
 using Coralite.Core.Systems.FlyingShieldSystem;
+using Coralite.Core.Systems.ParticleSystem;
 using Coralite.Helpers;
 using CoraliteExtension.Content.Items.FlyingShield;
 using CoraliteExtension.Content.Items.Melee;
@@ -11,6 +15,7 @@ using ReLogic.Content;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
@@ -18,12 +23,18 @@ using Terraria.ModLoader;
 
 namespace CoraliteExtension.Content.Items.FlyingShieldPlus
 {
-    public class CobaltSwordAndShield() 
-        : BaseShieldPlusWeapon<CobaltShieldPlusGuard>(Item.sellPrice(0,0,4),ItemRarityID.LightRed,AssetDirectoryEX.FlyingShieldPlusItems)
+    public class CobaltSwordAndShield()
+        : BaseShieldPlusWeapon<CobaltShieldPlusGuard>(Item.sellPrice(0, 0, 4), ItemRarityID.LightRed, AssetDirectoryEX.FlyingShieldPlusItems)
     {
         public override int FSProjType => ModContent.ProjectileType<CobaltFlyingShieldPlusProj>();
 
         private int combo;
+
+        public override void SetStaticDefaults()
+        {
+            base.SetStaticDefaults();
+            ItemID.Sets.ToolTipDamageMultiplier[Type] = 0.5f;
+        }
 
         public override void SetDefaults2()
         {
@@ -33,7 +44,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
             Item.shoot = ModContent.ProjectileType<CobaltSwordSlash>();
             Item.knockBack = 3.5f;
             Item.shootSpeed = 15;
-            Item.damage = 60;
+            Item.damage = 85;
 
             Item.useTurn = false;
             Item.autoReuse = true;
@@ -41,12 +52,26 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
 
         public override void LeftAttack(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(source, player.Center, Vector2.Zero, type, damage, knockback, player.whoAmI, combo);
+            if (combo == 2)
+                damage = (int)(damage * 1.35f);
+
+            Projectile.NewProjectile(source, player.Center, Vector2.Zero, type, (int)(damage *0.75f), knockback, player.whoAmI, combo);
+
             combo++;
-            if (combo>2)
-            {
+            if (combo > 2)
                 combo = 0;
-            }
+        }
+
+        public override void ShootFlyingShield(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 velocity, int type, int damage, float knockback)
+        {
+            damage /= 2;
+            base.ShootFlyingShield(player, source, velocity, type, damage, knockback);
+        }
+
+        public override void RightShoot(Player player, IEntitySource source, int damage)
+        {
+            damage = (int)(damage * 0.7f);
+            base.RightShoot(player, source, damage);
         }
 
         public override void AddRecipes()
@@ -101,9 +126,9 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
         }
     }
 
-    public class CobaltShieldPlusGuard:BaseFlyingShieldPlusGuard
+    public class CobaltShieldPlusGuard : BaseFlyingShieldPlusGuard
     {
-        public override string Texture => AssetDirectoryEX.FlyingShieldPlusItems+ "CobaltShieldPlus";
+        public override string Texture => AssetDirectoryEX.FlyingShieldPlusItems + "CobaltShieldPlus";
 
         public override void SetDefaults()
         {
@@ -125,15 +150,16 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
         }
     }
 
-    public class CobaltSwordSlash : BaseSwingProj,IDrawWarp
+    public class CobaltSwordSlash : BaseSwingProj, IDrawWarp
     {
         public override string Texture => AssetDirectoryEX.FlyingShieldPlusItems + "CobaltSword";
 
         public ref float Combo => ref Projectile.ai[0];
 
+        public Vector2 recordCenter;
         public bool channel = true;
 
-        private int recordDirection=1;
+        private int recordDirection = 1;
         private float recordStartAngle;
         private float recordTotalAngle;
         private float recordAngle;
@@ -173,9 +199,9 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
             Projectile.localNPCHitCooldown = -1;
             Projectile.width = 40;
             Projectile.height = 80;
-            trailTopWidth = 0;
+            trailTopWidth = 5;
             distanceToOwner = 8;
-            onHitFreeze = 0;
+            onHitFreeze = 6;
             useSlashTrail = true;
             Projectile.hide = true;
         }
@@ -191,7 +217,11 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
 
         protected override float ControlTrailBottomWidth(float factor)
         {
-            return 85 * Projectile.scale;
+            if (Combo>2)
+            {
+                return 75 * Projectile.scale;
+            }
+            return 90 * Projectile.scale;
         }
 
         protected override void Initializer()
@@ -199,6 +229,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
             if (Combo < 3 && Main.myPlayer == Projectile.owner)
                 Owner.direction = Main.MouseWorld.X > Owner.Center.X ? 1 : -1;
 
+            recordCenter = Owner.Center;
             Projectile.extraUpdates = 4;
             alpha = 0;
             recordDirection = OwnerDirection;
@@ -245,8 +276,10 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
                     break;
             }
 
-            if (Combo >2)
+            if (Combo > 2)
             {
+                onHitFreeze = 0;
+
                 Projectile.scale = Helper.EllipticalEase(recordStartAngle + extraScaleAngle - recordTotalAngle * Smoother.Smoother(0, maxTime - minTime), 1.2f, 1.6f);
                 extraScaleAngle = 0;
 
@@ -254,6 +287,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
                 recordAngle = GetStartAngle();
                 Projectile.extraUpdates = maxTime;
                 totalAngle -= 0.4f;
+                Projectile.height = 70;
 
                 useSlashTrail = true;
                 Projectile.hide = false;
@@ -285,7 +319,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
 
         private void ExtraInit()
         {
-            extraScaleAngle = Main.rand.Next(-2,3)*0.25f;
+            extraScaleAngle = Main.rand.Next(-2, 3) * 0.25f;
             recordStartAngle = Math.Abs(startAngle);
             recordTotalAngle = Math.Abs(totalAngle);
         }
@@ -318,6 +352,12 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
                 channel = false;
                 delay += 80;
                 maxTime += 40;
+                Projectile.damage *= 2;
+
+                var st = CoraliteSoundID.Slash_Item71;
+                st.Pitch = 0.2f;
+                SoundEngine.PlaySound(st, Projectile.Center);
+                SoundEngine.PlaySound(CoraliteSoundID.TerraBlade_Item60, Projectile.Center);
                 return;
             }
 
@@ -332,7 +372,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
                 //射弹幕
                 if (!channel)
                     Projectile.NewProjectileFromThis<CobaltSwordSlash>(Owner.Center, Vector2.Zero
-                        , (int)(Projectile.damage * 1.3f), Projectile.knockBack, Combo + 3);
+                        , Projectile.damage , Projectile.knockBack, Combo + 3);
             }
         }
 
@@ -344,7 +384,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
             if (Combo > 2 && Timer == maxTime)
             {
                 Projectile.extraUpdates = 4;
-                distanceA = 5;
+                distanceA = 9;
             }
 
             if (alpha < 255)
@@ -361,7 +401,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
             {
                 0 => scale * Helper.EllipticalEase(angle, 1f, 1.2f),
                 1 => scale * Helper.EllipticalEase(angle, 1.2f, 1.4f),
-                _  => scale * Helper.EllipticalEase(angle, 1.2f, 1.6f),
+                _ => scale * Helper.EllipticalEase(angle, 1.2f, 1.6f),
             };
 
             base.OnSlash();
@@ -369,10 +409,10 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
 
         protected override void AfterSlash()
         {
-            distanceA *= 0.98f;
+            distanceA *= 0.96f;
             distance += distanceA;
 
-            if (Combo<2)
+            if (Combo < 3)
             {
                 if (Main.mouseRight)
                 {
@@ -383,10 +423,29 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
                 if (alpha > 20)
                     alpha -= 10;
             }
-            else if(Timer>maxTime+delay/2)
+            else
             {
-                if (alpha > 10)
-                    alpha -= 8;
+                Vector2 dir = recordAngle.ToRotationVector2();
+                if (Timer % 4 == 0)
+                {
+                    Dust d = Dust.NewDustPerfect(OwnerCenter() + Main.rand.NextVector2Circular(Projectile.height * 1.4f, Projectile.height * 1.4f), DustID.AncientLight
+                         , -dir * Main.rand.NextFloat(8, 10));
+                    d.noGravity = true;
+                }
+
+                if (Timer > maxTime + delay / 2)
+                {
+                    if (alpha > 10)
+                        alpha -= 8;
+                }
+                else
+                {
+                    if (Timer % 6 == 0)
+                    {
+                        Particle.NewParticle<SpeedLine>(OwnerCenter() + Main.rand.NextVector2Circular(Projectile.height * 1.5f, Projectile.height * 1.5f)
+                             , dir * Main.rand.NextFloat(6, 8), Color.CadetBlue, Main.rand.NextFloat(0.2f, 0.4f));
+                    }
+                }
             }
 
             Slasher();
@@ -411,7 +470,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
 
         public override bool? CanHitNPC(NPC target)
         {
-            if (Timer < minTime || Timer > maxTime&&Combo<3)
+            if (Timer < minTime || Timer > maxTime && Combo < 3)
                 return false;
 
             if (target.noTileCollide || target.friendly || Projectile.hostile)
@@ -423,9 +482,39 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
             return false;
         }
 
+        protected override void OnHitEvent(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            Projectile.damage = (int)(Projectile.damage * 0.85f);
+
+            if (onHitTimer != 1||!VisualEffectSystem.HitEffect_SpecialParticles)
+                return;
+            
+            float offset = Projectile.localAI[1] + Main.rand.NextFloat(0, Projectile.width * Projectile.scale - Projectile.localAI[1]);
+            Vector2 pos = Combo < 3 ? Bottom + RotateVec2 * offset : Vector2.Lerp(target.Center, OwnerCenter(), 0.4f);
+
+            float rotation = (target.Center - Projectile.Center).ToRotation();
+            float rot;
+
+            Color c = new Color(0, 100, 255, 150);
+            for (int i = 0; i < 2; i++)
+            {
+                rot = Main.rand.NextFloat(6.282f);
+                LightShotParticle.Spawn(pos, c, rot + rotation
+                    , new Vector2(Main.rand.NextFloat(0.2f, 0.3f) * Helper.EllipticalEase(rot, 1, 0.4f)
+                    , 0.02f));
+                rot = Main.rand.NextFloat(6.282f);
+                LightShotParticle.Spawn(pos, Color.SkyBlue, rot + rotation
+                    , new Vector2(Main.rand.NextFloat(0.3f, 0.4f) * Helper.EllipticalEase(rot, 1, 0.4f)
+                    , 0.01f));
+            }
+
+            for (int i = 0; i < 3; i++)
+                LightTrailParticle_NoPrimitive.Spawn(pos, Helper.NextVec2Dir(3f, 4f), c, Main.rand.NextFloat(0.1f, 0.15f));
+        }
+
         protected override float GetExRot()
         {
-            if (Combo<3&&Timer<=minTime)
+            if (Combo < 3 && Timer <= minTime)
             {
                 int dir = recordDirection;
                 float extraRot = OwnerDirection < 0 ? MathHelper.Pi : 0;
@@ -439,7 +528,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
 
         protected override SpriteEffects CheckEffect()
         {
-            if (Combo < 3&&Timer<=minTime)
+            if (Combo < 3 && Timer <= minTime)
             {
                 if (OwnerDirection < 0)
                 {
@@ -467,14 +556,14 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
         public void DrawWarp()
         {
             if (oldRotate != null && Timer > minTime)
-                WarpDrawer(0.75f,alpha/255f);
+                WarpDrawer(0.75f, alpha / 255f);
         }
 
         protected override Vector2 OwnerCenter()
         {
             if (Combo > 2 && Timer > minTime)
             {
-                return base.OwnerCenter()+recordAngle.ToRotationVector2()*distance;
+                return recordCenter + recordAngle.ToRotationVector2() * distance;
             }
 
             return base.OwnerCenter();
@@ -482,7 +571,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
 
         protected override void DrawSlashTrail()
         {
-            if (oldRotate == null||Timer<=minTime)
+            if (oldRotate == null || Timer <= minTime)
                 return;
 
             List<VertexPositionColorTexture> bars = new List<VertexPositionColorTexture>();
@@ -508,7 +597,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
             {
                 Helper.DrawTrail(Main.graphics.GraphicsDevice, () =>
                 {
-                    Effect effect = Filters.Scene["SimpleGradientTrail"].GetShader().Shader;
+                    Effect effect =  Filters.Scene[Combo>2? "SimpleGradientTrail" : "NoHLGradientTrail"].GetShader().Shader;
 
                     effect.Parameters["transformMatrix"].SetValue(Helper.GetTransfromMaxrix());
                     effect.Parameters["sampleTexture"].SetValue(Combo > 2 ? EXTrailTexture.Value : MysticGoldenBroadswordSlash.trailTexture.Value);
