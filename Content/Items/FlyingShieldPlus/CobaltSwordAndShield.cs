@@ -24,7 +24,7 @@ using Terraria.ModLoader;
 namespace CoraliteExtension.Content.Items.FlyingShieldPlus
 {
     public class CobaltSwordAndShield()
-        : BaseShieldPlusWeapon<CobaltShieldPlusGuard>(Item.sellPrice(0, 0, 4), ItemRarityID.LightRed, AssetDirectoryEX.FlyingShieldPlusItems)
+        : BaseShieldPlusWeapon<CobaltShieldPlusGuard>(Item.sellPrice(0, 4), ItemRarityID.LightRed, AssetDirectoryEX.FlyingShieldPlusItems)
     {
         public override int FSProjType => ModContent.ProjectileType<CobaltFlyingShieldPlusProj>();
 
