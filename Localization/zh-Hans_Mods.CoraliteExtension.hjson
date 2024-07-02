@@ -79,11 +79,11 @@ Projectiles: {
 	CthulhuFlyingShieldGuard.DisplayName: 克苏鲁飞盾
 	CthulhuFlyingShieldProj.DisplayName: 克苏鲁飞盾
 	SmallCthulhuEye.DisplayName: 克苏鲁之眼仆从
-	CobaltFlyingShieldGuard.DisplayName: Cobalt Flying Shield Guard
-	CobaltFlyingShieldProj.DisplayName: Cobalt Flying Shield Proj
-	CobaltFlyingShieldPlusProj.DisplayName: Cobalt Flying Shield Plus Proj
-	CobaltShieldPlusGuard.DisplayName: Cobalt Shield Plus Guard
-	CobaltSwordSlash.DisplayName: Cobalt Sword Slash
+	CobaltFlyingShieldGuard.DisplayName: 钴飞盾
+	CobaltFlyingShieldProj.DisplayName: 钴飞盾
+	CobaltFlyingShieldPlusProj.DisplayName: 钴盾
+	CobaltShieldPlusGuard.DisplayName: 钴盾
+	CobaltSwordSlash.DisplayName: 钴剑
 }
 
 Buffs: {

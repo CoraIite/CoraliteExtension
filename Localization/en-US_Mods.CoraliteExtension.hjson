@@ -8,7 +8,7 @@ Items: {
 
 	MysticGoldenBroadsword: {
 		DisplayName: Mystic Golden Broadsword
-		Tooltip: ""
+		Tooltip: Made with gold ingots infused with mystical magic
 	}
 
 	MysteryGel: {
@@ -41,7 +41,7 @@ Items: {
 
 	TheDiceOfTheCreator: {
 		DisplayName: The Dice Of The Creator
-		Tooltip: ""
+		Tooltip: Let's start rolling the dice
 	}
 
 	CthulhuFlyingShield: {
@@ -55,12 +55,21 @@ Items: {
 
 	CobaltFlyingShield: {
 		DisplayName: Cobalt Flying Shield
-		Tooltip: ""
+		Tooltip:
+			'''
+			+1 Defense and immunity to knockback when active
+			+1 Flying Shield Count, +1 Flying Shield Bounce Count
+			[c/4f80bd: Right-click in inventory to convert to vanilla accessory]
+			'''
 	}
 
 	CobaltSwordAndShield: {
 		DisplayName: Cobalt Sword And Shield
-		Tooltip: ""
+		Tooltip:
+			'''
+			Left-click to quickly swing, press and hold to charge and shoot sword energy
+			Defense cancels the backswing of charged attacks
+			'''
 	}
 }
 
@@ -72,13 +81,13 @@ Projectiles: {
 	EsotericGuardianBullet.DisplayName: Esoteric Guardian Bullet
 	EsotericGuardianMagicBall.DisplayName: Esoteric Guardian Magic Ball
 	CthulhuFlyingShieldGuard.DisplayName: Cthulhu Flying Shield Guard
-	CthulhuFlyingShieldProj.DisplayName: Cthulhu Flying Shield Proj
+	CthulhuFlyingShieldProj.DisplayName: Cthulhu Flying Shield
 	SmallCthulhuEye.DisplayName: Small Cthulhu Eye
 	CobaltFlyingShieldGuard.DisplayName: Cobalt Flying Shield Guard
-	CobaltFlyingShieldProj.DisplayName: Cobalt Flying Shield Proj
-	CobaltFlyingShieldPlusProj.DisplayName: Cobalt Flying Shield Plus Proj
-	CobaltShieldPlusGuard.DisplayName: Cobalt Shield Plus Guard
-	CobaltSwordSlash.DisplayName: Cobalt Sword Slash
+	CobaltFlyingShieldProj.DisplayName: Cobalt Flying Shield
+	CobaltFlyingShieldPlusProj.DisplayName: Cobalt Flying Shield
+	CobaltShieldPlusGuard.DisplayName: Cobalt Shield Guard
+	CobaltSwordSlash.DisplayName: Cobalt Sword
 }
 
 Buffs: {
@@ -88,4 +97,4 @@ Buffs: {
 	}
 }
 
-EXSystem.FlyingShieldGlobalItem.TransformTips: "[c/4f80bd:物品栏内右键以转换为飞盾]"
+EXSystem.FlyingShieldGlobalItem.TransformTips: "[c/4f80bd:Right-click in the inventory to convert to a flying shield]"
