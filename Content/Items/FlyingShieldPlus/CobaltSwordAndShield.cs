@@ -174,7 +174,6 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
         public int alpha;
 
         public static Asset<Texture2D> GradientTexture;
-        public static Asset<Texture2D> EXTrailTexture;
 
         public CobaltSwordSlash() : base(0.785f, trailCount: 16) { }
 
@@ -184,13 +183,11 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
                 return;
 
             GradientTexture = ModContent.Request<Texture2D>(AssetDirectoryEX.FlyingShieldPlusItems + "CobaltSwordAndShieldGradient");
-            EXTrailTexture = ModContent.Request<Texture2D>(AssetDirectory.OtherProjectiles + "LiteSlashMirror2");
         }
 
         public override void Unload()
         {
             GradientTexture = null;
-            EXTrailTexture = null;
         }
 
         public override void SetDefs()
@@ -600,7 +597,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
                     Effect effect =  Filters.Scene[Combo>2? "SimpleGradientTrail" : "NoHLGradientTrail"].GetShader().Shader;
 
                     effect.Parameters["transformMatrix"].SetValue(Helper.GetTransfromMaxrix());
-                    effect.Parameters["sampleTexture"].SetValue(Combo > 2 ? EXTrailTexture.Value : MysticGoldenBroadswordSlash.trailTexture.Value);
+                    effect.Parameters["sampleTexture"].SetValue(Combo > 2 ? CoraliteAssets.Trail.LiteSlashBrightHMirror.Value : CoraliteAssets.Trail.LiteSlashBright.Value);
                     effect.Parameters["gradientTexture"].SetValue(GradientTexture.Value);
 
                     foreach (EffectPass pass in effect.CurrentTechnique.Passes) //应用shader，并绘制顶点

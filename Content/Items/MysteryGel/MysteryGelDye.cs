@@ -1,6 +1,6 @@
-﻿using Coralite.Core;
-using Coralite.Core.Systems.MagikeSystem;
-using Coralite.Core.Systems.MagikeSystem.CraftConditions;
+﻿using Coralite.Core.Systems.MagikeSystem;
+using Coralite.Core.Systems.MagikeSystem.MagikeCraft;
+using Coralite.Helpers;
 using CoraliteExtension.Core;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CoraliteExtension.Content.Items.MysteryGel
 {
-    public class MysteryGelDye : BaseMysteryGelItem, IMagikePolymerizable
+    public class MysteryGelDye : BaseMysteryGelItem, IMagikeCraftable
     {
         public override string Texture => AssetDirectoryEX.MysteryGelItems + Name;
 
@@ -32,14 +32,13 @@ namespace CoraliteExtension.Content.Items.MysteryGel
             Item.rare = ModContent.RarityType<MysteryGelRarity>();
         }
 
-        public void AddMagikePolymerizeRecipe()
+        public void AddMagikeCraftRecipe()
         {
-            PolymerizeRecipe.CreateRecipe<MysteryGelDye>(200)
-                .SetMainItem<MysteryGel>()
+            MagikeCraftRecipe.CreateRecipe<MysteryGel, MysteryGelDye>(MagikeHelper.CalculateMagikeCost(MALevel.Pelagic, 6, 5 * 60))
                 .AddIngredient(ItemID.Gel, 49)
                 .AddIngredient(ItemID.PinkGel, 9)
                 .AddIngredient(ItemID.GelBalloon, 9)
-                .AddCondition(HardModeCondition.Instance)
+                .AddCondition(Condition.Hardmode)
                 .Register();
         }
     }

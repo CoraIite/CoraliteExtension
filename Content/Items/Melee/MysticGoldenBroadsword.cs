@@ -4,8 +4,8 @@ using Coralite.Core;
 using Coralite.Core.Configs;
 using Coralite.Core.Prefabs.Projectiles;
 using Coralite.Core.Systems.MagikeSystem;
-using Coralite.Core.Systems.MagikeSystem.CraftConditions;
 using Coralite.Core.Systems.MagikeSystem.EnchantSystem;
+using Coralite.Core.Systems.MagikeSystem.MagikeCraft;
 using Coralite.Core.Systems.ParticleSystem;
 using Coralite.Helpers;
 using CoraliteExtension.Content.Particles;
@@ -29,7 +29,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CoraliteExtension.Content.Items.Melee
 {
-    public class MysticGoldenBroadsword : ModItem, IMagikeRemodelable, ISpecialEnchantable
+    public class MysticGoldenBroadsword : ModItem, IMagikeCraftable, ISpecialEnchantable
     {
         public override string Texture => AssetDirectoryEX.MeleeItems + Name;
 
@@ -41,7 +41,7 @@ namespace CoraliteExtension.Content.Items.Melee
         public override void SetDefaults()
         {
             Item.width = Item.height = 40;
-            Item.damage = 17;
+            Item.damage = 23;
             Item.useTime = Item.useAnimation = 22;
             Item.knockBack = 2f;
 
@@ -90,12 +90,6 @@ namespace CoraliteExtension.Content.Items.Melee
             return true;
         }
 
-        public void AddMagikeRemodelRecipe()
-        {
-            MagikeSystem.AddRemodelRecipe<MysticGoldenBroadsword>(0f, ItemID.GoldBroadsword,
-                100, condition: EnchantCondition.Instance);
-        }
-
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             group?.UpdateParticles();
@@ -126,6 +120,12 @@ namespace CoraliteExtension.Content.Items.Melee
         {
             return EnchantEntityPools.remodelableWeaponPool;
         }
+
+        public void AddMagikeCraftRecipe()
+        {
+            MagikeSystem.AddRemodelRecipe( ItemID.GoldBroadsword,ItemType< MysticGoldenBroadsword >(),
+                MagikeHelper.CalculateMagikeCost(MALevel.Glistent,24,60*8), conditions:Condition.DownedEyeOfCthulhu);
+        }
     }
 
     public class MysticGoldenRarity : ModRarity
@@ -148,7 +148,6 @@ namespace CoraliteExtension.Content.Items.Melee
 
         public ref float Combo => ref Projectile.ai[0];
 
-        public static Asset<Texture2D> trailTexture;
         public static Asset<Texture2D> WarpTexture;
         public static Asset<Texture2D> GradientTexture;
 
@@ -162,7 +161,6 @@ namespace CoraliteExtension.Content.Items.Melee
             if (Main.dedServ)
                 return;
 
-            trailTexture = Request<Texture2D>(AssetDirectory.OtherProjectiles + "LiteSlash2");
             WarpTexture = Request<Texture2D>(AssetDirectory.OtherProjectiles + "WarpTex");
             GradientTexture = Request<Texture2D>(AssetDirectoryEX.MeleeItems + "MysticGoldenGradient");
         }
@@ -172,7 +170,6 @@ namespace CoraliteExtension.Content.Items.Melee
             if (Main.dedServ)
                 return;
 
-            trailTexture = null;
             WarpTexture = null;
             GradientTexture = null;
         }
@@ -377,7 +374,7 @@ namespace CoraliteExtension.Content.Items.Melee
                     Effect effect = Filters.Scene["SimpleGradientTrail"].GetShader().Shader;
 
                     effect.Parameters["transformMatrix"].SetValue(Helper.GetTransfromMaxrix());
-                    effect.Parameters["sampleTexture"].SetValue(trailTexture.Value);
+                    effect.Parameters["sampleTexture"].SetValue(CoraliteAssets.Trail.LiteSlashBright.Value);
                     effect.Parameters["gradientTexture"].SetValue(GradientTexture.Value);
 
                     foreach (EffectPass pass in effect.CurrentTechnique.Passes) //应用shader，并绘制顶点

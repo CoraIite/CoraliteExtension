@@ -3,6 +3,7 @@ using Coralite.Core;
 using Coralite.Core.Configs;
 using Coralite.Core.Prefabs.Projectiles;
 using Coralite.Core.Systems.MagikeSystem;
+using Coralite.Core.Systems.MagikeSystem.MagikeCraft;
 using Coralite.Helpers;
 using CoraliteExtension.Core;
 using CoraliteExtension.Helpers;
@@ -23,7 +24,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CoraliteExtension.Content.Items.MysteryGel
 {
-    public class EsotericKeyStaff : BaseMysteryGelItem, IMagikePolymerizable
+    public class EsotericKeyStaff : BaseMysteryGelItem, IMagikeCraftable
     {
         public override string Texture => AssetDirectoryEX.MysteryGelItems + Name;
 
@@ -64,10 +65,9 @@ namespace CoraliteExtension.Content.Items.MysteryGel
             return false;
         }
 
-        public void AddMagikePolymerizeRecipe()
+        public void AddMagikeCraftRecipe()
         {
-            PolymerizeRecipe.CreateRecipe<EsotericKeyStaff>(500)
-                .SetMainItem<MysteryGel>(10)
+            MagikeCraftRecipe.CreateRecipe<MysteryGel,EsotericKeyStaff>(MagikeHelper.CalculateMagikeCost(MALevel.Soul,12,10*60),10)
                 .AddIngredient(ItemID.SoulofFright)
                 .AddIngredient(ItemID.SoulofMight)
                 .AddIngredient(ItemID.SoulofSight)
@@ -881,7 +881,6 @@ namespace CoraliteExtension.Content.Items.MysteryGel
 
         public EsotericGuardianSlash() : base(0f, 16) { }
 
-        public static Asset<Texture2D> trailTexture;
         public static Asset<Texture2D> WarpTexture;
         public static Asset<Texture2D> GradientTexture;
 
@@ -896,7 +895,6 @@ namespace CoraliteExtension.Content.Items.MysteryGel
             if (Main.dedServ)
                 return;
 
-            trailTexture = Request<Texture2D>(AssetDirectory.OtherProjectiles + "SpurtTrail");
             WarpTexture = Request<Texture2D>(AssetDirectory.OtherProjectiles + "WarpTex");
             GradientTexture = Request<Texture2D>(AssetDirectoryEX.MysteryGelItems + "EsotericKeyGradient");
         }
@@ -1188,7 +1186,7 @@ namespace CoraliteExtension.Content.Items.MysteryGel
                 Matrix projection = Matrix.CreateOrthographicOffCenter(0, Main.screenWidth, Main.screenHeight, 0, -1, 1);
 
                 effect.Parameters["transformMatrix"].SetValue(world * view * projection);
-                effect.Parameters["sampleTexture"].SetValue(trailTexture.Value);
+                effect.Parameters["sampleTexture"].SetValue(CoraliteAssets.Trail.SlashFlatBlur.Value);
                 effect.Parameters["gradientTexture"].SetValue(GradientTexture.Value);
 
                 Main.graphics.GraphicsDevice.SamplerStates[0] = SamplerState.PointWrap;

@@ -5,7 +5,7 @@ namespace CoraliteExtension
 {
     public class CoraliteExtension : Mod, ICoralite
     {
-        public static CoraliteExtension Instance { get;private set; }
+        public static CoraliteExtension Instance { get; private set; }
 
         public CoraliteExtension()
         {

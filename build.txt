@@ -1,4 +1,4 @@
 displayName = 海中星
 author = 瓶中微光
-version = 0.13
-modReferences = Coralite@0.1.6
+version = 0.14
+modReferences = Coralite@0.2.0.1

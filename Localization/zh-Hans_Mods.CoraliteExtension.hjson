@@ -21,8 +21,9 @@ Items: {
 		Tooltip:
 			'''
 			放入凝胶以生产魔能
-			凝胶：20，粉凝胶：30，秘境凝胶：115
+			凝胶：60，粉凝胶：80，帝凝胶：120，秘境凝胶：300
 			'''
+		ProduceCondition: "  ▶ 需要放入凝胶"
 	}
 
 	MysteryGelDye: {
@@ -67,6 +68,16 @@ Items: {
 			防御可以取消蓄力攻击的后摇
 			'''
 	}
+
+	Sunset: {
+		DisplayName: 落日
+		Tooltip:
+			'''
+			双击方向键进行冲刺，期间摩擦地面引燃木箭
+			冰块能擦出霜火
+			[c/c2370d:"落日余晖"]
+			'''
+	}
 }
 
 Projectiles: {
@@ -84,6 +95,7 @@ Projectiles: {
 	CobaltFlyingShieldPlusProj.DisplayName: 钴盾
 	CobaltShieldPlusGuard.DisplayName: 钴盾
 	CobaltSwordSlash.DisplayName: 钴剑
+	// SunsetHeldProj.DisplayName: Sunset Held Proj
 }
 
 Buffs: {

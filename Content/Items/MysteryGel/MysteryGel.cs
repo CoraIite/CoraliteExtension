@@ -1,6 +1,6 @@
 ﻿using Coralite.Core;
 using Coralite.Core.Systems.MagikeSystem;
-using Coralite.Core.Systems.MagikeSystem.CraftConditions;
+using Coralite.Core.Systems.MagikeSystem.MagikeCraft;
 using Coralite.Core.Systems.ParticleSystem;
 using CoraliteExtension.Content.Particles;
 using CoraliteExtension.Core;
@@ -14,13 +14,14 @@ using Terraria.UI.Chat;
 
 namespace CoraliteExtension.Content.Items.MysteryGel
 {
-    public class MysteryGel : BaseMysteryGelItem, IMagikeRemodelable
+    public class MysteryGel : BaseMysteryGelItem, IMagikeCraftable
     {
         public override string Texture => AssetDirectoryEX.MysteryGelItems + Name;
 
-        public void AddMagikeRemodelRecipe()
+        public void AddMagikeCraftRecipe()
         {
-            MagikeSystem.AddRemodelRecipe<MysteryGel>(0f, ItemID.PinkGel, 20, selfStack: 3, condition: HardModeCondition.Instance);
+            MagikeSystem.AddRemodelRecipe( ItemID.PinkGel,ModContent.ItemType<MysteryGel>(),100,
+                3, conditions: Condition.Hardmode);
         }
 
         public override void SetDefaults()

@@ -21,8 +21,9 @@ Items: {
 		Tooltip:
 			'''
 			Put in the gel to produce magike
-			Gel：20，pink gel：30，mystery gel：115
+			Gel：60，pink gel：80，emperor gel: 120, mystery gel：300
 			'''
+		ProduceCondition: "  ▶ Need put gels into it"
 	}
 
 	MysteryGelDye: {
@@ -71,6 +72,16 @@ Items: {
 			Defense cancels the backswing of charged attacks
 			'''
 	}
+
+	Sunset: {
+		DisplayName: Sunset
+		Tooltip:
+			'''
+			Double-tap the movement keys to dash, rubbing the ground to ignite the arrow
+			Ice cubes can rub out frost and fire
+			[c/c2370d:"Light Of The Setting Sun"]
+			'''
+	}
 }
 
 Projectiles: {
@@ -88,6 +99,7 @@ Projectiles: {
 	CobaltFlyingShieldPlusProj.DisplayName: Cobalt Flying Shield
 	CobaltShieldPlusGuard.DisplayName: Cobalt Shield Guard
 	CobaltSwordSlash.DisplayName: Cobalt Sword
+	SunsetHeldProj.DisplayName: Sunset Held Proj
 }
 
 Buffs: {

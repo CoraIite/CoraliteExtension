@@ -1,11 +1,13 @@
-﻿using Coralite.Content.Items.Magike.BasicLens;
+﻿using Coralite.Content.Items.Gels;
+using Coralite.Content.Items.MagikeSeries2;
 using Coralite.Core;
-using Coralite.Core.Prefabs.Items;
 using Coralite.Core.Systems.MagikeSystem;
-using Coralite.Core.Systems.MagikeSystem.Base;
+using Coralite.Core.Systems.MagikeSystem.BaseItems;
+using Coralite.Core.Systems.MagikeSystem.Components;
+using Coralite.Core.Systems.MagikeSystem.Components.Producers;
 using Coralite.Core.Systems.MagikeSystem.TileEntities;
+using Coralite.Core.Systems.MagikeSystem.Tiles;
 using Coralite.Core.Systems.ParticleSystem;
-using Coralite.Helpers;
 using CoraliteExtension.Content.Items.MysteryGel;
 using CoraliteExtension.Content.Particles;
 using CoraliteExtension.Core;
@@ -14,34 +16,35 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 using Terraria.UI.Chat;
 using static Terraria.ModLoader.ModContent;
 
 namespace CoraliteExtension.Content.Items.Magike
 {
-    public class GelLens : BaseMagikePlaceableItem, IMagikeGeneratorItem, IMagikeSenderItem
+    public class GelLens() : MagikeApparatusItem(TileType<GelLensTile>(), Item.sellPrice(silver: 20)
+            , RarityType<MysteryGelRarity>(), AssetDirectoryEX.MagikeItems)
     {
         private static ParticleGroup group;
 
-        public GelLens() : base(TileType<GelLensTile>(), Item.sellPrice(0, 0, 10, 0)
-            , RarityType<MysteryGelRarity>(), 300, AssetDirectoryEX.MagikeItems)
-        { }
+        public static LocalizedText ProduceCondition {  get;private set; }
 
-        public override int MagikeMax => 800;
-        public string SendDelay => "5";
-        public int HowManyPerSend => 40;
-        public int ConnectLengthMax => 5;
-        public int HowManyToGenerate => -1;
-        public string GenerateDelay => "9";
+        public override void Load()
+        {
+            ProduceCondition=this.GetLocalization(nameof(ProduceCondition));
+        }
+
+        public override void Unload()
+        {
+            ProduceCondition = null;
+        }
 
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient<BrilliantLens>()
+                .AddIngredient<CrystallineMagike>(8)
                 .AddIngredient<MysteryGel.MysteryGel>(4)
                 .AddTile(TileID.MythrilAnvil)
                 .Register();
@@ -93,153 +96,182 @@ namespace CoraliteExtension.Content.Items.Magike
         }
     }
 
-    public class GelLensTile : BaseCostItemLensTile
+    public class GelLensTile() : BaseLensTile
+        (Color.Pink, DustID.PinkSlime)
     {
         public override string Texture => AssetDirectoryEX.MagikeTiles + Name;
-        public override string TopTextureName => AssetDirectoryEX.MagikeTiles + Name + "_Top";
 
-        public override void SetStaticDefaults()
+        public override int DropItemType => ItemType<GelLens>();
+
+        public override MagikeTileEntity GetEntityInstance() => GetInstance<GelLensTileEntity>();
+
+        public override MALevel[] GetAllLevels()
         {
-            Main.tileShine[Type] = 400;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileNoFail[Type] = true; //不会出现挖掘失败的情况
-            TileID.Sets.IgnoredInHouseScore[Type] = true;
-
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
-            TileObjectData.newTile.Height = 3;
-            TileObjectData.newTile.CoordinateHeights = new int[3] {
-                16,
-                16,
-                16
-            };
-            TileObjectData.newTile.DrawYOffset = 2;
-            TileObjectData.newTile.LavaDeath = false;
-            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(GetInstance<GelLensEntity>().Hook_AfterPlacement, -1, 0, true);
-
-            TileObjectData.addTile(Type);
-
-            AddMapEntry(Color.Pink);
-            DustType = DustID.PinkSlime;
+            return [
+                MALevel.None,
+                MALevel.CrystallineMagike,
+                ];
         }
 
-        public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
+        public override void DrawExtraTex(SpriteBatch spriteBatch, Texture2D tex, Rectangle tileRect, Vector2 offset, Color lightColor, float rotation, MagikeTileEntity entity, MALevel level)
         {
-            //这是特定于照明模式的，如果您手动绘制瓷砖，请始终包含此内容
-            Vector2 offScreen = new Vector2(Main.offScreenRange);
-            if (Main.drawToScreen)
-                offScreen = Vector2.Zero;
+            Vector2 selfCenter = tileRect.Center();
+            Vector2 drawPos = selfCenter + offset;
+            int halfHeight = Math.Max(tileRect.Height / 2, tileRect.Width / 2);
 
-            //检查物块它是否真的存在
-            Point p = new Point(i, j);
-            Tile tile = Main.tile[p.X, p.Y];
-            if (tile == null || !tile.HasTile)
+            //虽然一般不会没有 但是还是检测一下
+            if (!entity.TryGetComponent(MagikeComponentID.MagikeProducer, out MagikeProducer producer))
                 return;
 
-            //获取初始绘制参数
-            Texture2D texture = TopTexture.Value;
+            bool canProduce = producer.CanProduce();
 
-            // 根据项目的地点样式拾取图纸上的框架
-            int frameY = tile.TileFrameX / FrameWidth;
-            Rectangle frame = texture.Frame(HorizontalFrames, VerticalFrames, 0, frameY);
-
-            Vector2 origin = frame.Size() / 2f;
-            Vector2 worldPos = p.ToWorldCoordinates(halfWidth, halfHeight);
-
-            Color color = Lighting.GetColor(p.X, p.Y);
-           float lightLevel= Lighting.Brightness(p.X, p.Y);
-            //这与我们之前注册的备用磁贴数据有关
-            bool direction = tile.TileFrameY / FrameHeight != 0;
-            SpriteEffects effects = direction ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-
-            // 一些数学魔法，使其随着时间的推移平稳地上下移动
-            Vector2 drawPos = worldPos + offScreen - Main.screenPosition;
-            if (MagikeHelper.TryGetEntityWithTopLeft(i, j, out GelLensEntity container))
+            if (canProduce)
             {
-                if (container.Active)   //如果处于活动状态那么就会上下移动，否则就落在底座上
+                const float TwoPi = (float)Math.PI * 2f;
+                float offset2 = (float)Math.Sin((Main.GlobalTimeWrappedHourly + tileRect.X + tileRect.Y) * TwoPi / 5f);
+                drawPos += new Vector2(0f, offset2 * 4f);
+            }
+            else
+                drawPos -= rotation.ToRotationVector2() * (halfHeight - ((tileRect.Width > tileRect.Height ? tex.Width : tex.Height) / 2) - 4);
+
+            if (!entity.TryGetComponent(MagikeComponentID.ItemContainer, out ItemContainer container))
+                return;
+
+            Color color = Color.White;
+
+            foreach (var item in container.Items)
+            {
+                if (item.IsAir)
+                    continue;
+
+                if (item.type == ItemID.Gel)
                 {
-                    const float TwoPi = (float)Math.PI * 2f;
-                    float offset = (float)Math.Sin(Main.GlobalTimeWrappedHourly * TwoPi / 5f);
-                    drawPos += new Vector2(0f, offset * 4f);
-                }
-                else
-                    drawPos += new Vector2(0, halfHeight - 16);
-
-                if (container.itemToCosume != null && !container.itemToCosume.IsAir)
-                {
-                    Item item = container.itemToCosume;
-                    spriteBatch.Draw(texture, drawPos, frame, color, 0f, origin, 1f, effects, 0f);
-
-                    if (item.type == ItemID.Gel)
-                        color = item.color;
-                    else if (item.type == ItemID.PinkGel)
-                        color = Color.Pink;
-                    else if (item.type == ItemType<MysteryGel.MysteryGel>())
-                        color = RarityLoader.GetRarity(item.rare).RarityColor;
-
+                    color = item.color;
                     color.A = 50;
-                    color *= lightLevel;
-                    spriteBatch.Draw(texture, drawPos, frame, color, 0f, origin, 1f, effects, 0f);
+                    break;
+                }
+                else if (item.type == ItemID.PinkGel)
+                {
+                    color = Color.HotPink;
+                    color.A = 150;
+                    break;
+                }
+                else if (item.type == ItemType<MysteryGel.MysteryGel>())
+                {
+                    color = RarityLoader.GetRarity(item.rare).RarityColor;
+                    color.A = 150;
+                    break;
+                }
+                else if (item.type == ItemType<EmperorGel>())
+                {
+                    color = Color.CornflowerBlue;
+                    color.A = 150;
+                    break;
                 }
             }
 
             // 绘制主帖图
-            spriteBatch.Draw(texture, drawPos, frame, color, 0f, origin, 1f, effects, 0f);
+            DrawTopTex(spriteBatch, tex, drawPos, lightColor, level, canProduce);
+            DrawTopTex(spriteBatch, tex, drawPos, lightColor.MultiplyRGBA(color), level, canProduce);
         }
     }
 
-    public class GelLensEntity : MagikeGenerator_FromMagItem
+    public class GelLensTileEntity : BaseCostItemProducerTileEntity<GelLensTile>
     {
-        public const int sendDelay = 60 * 5;
-        public int sendTimer;
-        public GelLensEntity() : base(800, 5 * 16, 60 * 9) { }
+        public override MagikeContainer GetStartContainer()
+            => new GelLensContainer();
 
-        public override ushort TileType => (ushort)TileType<CrystalLensTile>();
+        public override MagikeLinerSender GetStartSender()
+            => new GelLensSender();
 
-        public override int HowManyPerSend => 40;
+        public override MagikeCostItemProducer GetStartProducer()
+            => new GelProducer();
 
-        public override int HowManyToGenerate
-        {
-            get
+        public override ItemContainer GetStartItemContainer()
+            => new()
             {
-                switch (itemToCosume.type)
-                {
-                    default:
-                        if (itemToCosume.type == ItemType<MysteryGel.MysteryGel>())
-                            return 115;
-                        break;
-                    case ItemID.Gel: return 20;
-                    case ItemID.PinkGel: return 30;
-                }
+                CapacityBase = 2
+            };
+    }
 
-                return 0;
-            }
-        }
-
-        public override bool CanSend()
+    public class GelLensContainer : UpgradeableContainer
+    {
+        public override void Upgrade(MALevel incomeLevel)
         {
-            sendTimer++;
-            if (sendTimer > sendDelay)
+            MagikeMaxBase = incomeLevel switch
             {
-                sendTimer = 0;
-                return true;
+                MALevel.CrystallineMagike => 2000,
+                _ => 0,
+            };
+            LimitMagikeAmount();
+
+            AntiMagikeMaxBase = MagikeMaxBase * 2;
+            LimitAntiMagikeAmount();
+        }
+    }
+
+    public class GelLensSender : UpgradeableLinerSender
+    {
+        public override void Upgrade(MALevel incomeLevel)
+        {
+            MaxConnectBase = 1;
+            ConnectLengthBase = 4 * 16;
+            switch (incomeLevel)
+            {
+                default:
+                    MaxConnectBase = 0;
+                    UnitDeliveryBase = 0;
+                    SendDelayBase = 1_0000_0000 / 60;//随便填个大数
+                    ConnectLengthBase = 0;
+                    break;
+                case MALevel.CrystallineMagike:
+                    UnitDeliveryBase = 120;
+                    SendDelayBase = 4;
+                    break;
             }
 
-            return false;
+            SendDelayBase *= 60;
+            RecheckConnect();
+        }
+    }
+
+    public class GelProducer : UpgradeableCostItemProducer
+    {
+        public override string GetCanProduceText => GelLens.ProduceCondition.Value;
+
+        public override MagikeSystem.UITextID NameText { get => MagikeSystem.UITextID.GelLensName; }
+
+        public override bool CanConsumeItem(Item item)
+            => item.type is ItemID.Gel or ItemID.PinkGel || item.type == ItemType<MysteryGel.MysteryGel>()|| item.type == ItemType<EmperorGel>();
+
+        public override int GetMagikeAmount(Item item)
+        {
+            switch (item.type)
+            {
+                default:
+                    if (item.type == ItemType<MysteryGel.MysteryGel>())
+                        return 300;
+                    else if (item.type == ItemType<EmperorGel>())
+                        return 120;
+                    break;
+                case ItemID.Gel:
+                    return 60;
+                case ItemID.PinkGel:
+                    return 80;
+            }
+
+            return 0;
         }
 
-        public override bool CanInsertItem(Item item)
+        public override void Upgrade(MALevel incomeLevel)
         {
-            return item.ammo == AmmoID.Gel || item.type == ItemID.PinkGel;
-        }
+            ProductionDelayBase = incomeLevel switch
+            {
+                 MALevel.CrystallineMagike => 10,
+                _ => 1_0000_0000 / 60,//随便填个大数
+            } * 60;
 
-        public override void SendVisualEffect(IMagikeContainer container)
-        {
-            MagikeHelper.SpawnDustOnSend(2, 3, Position, container, Color.Pink);
-        }
-
-        public override void OnReceiveVisualEffect()
-        {
-            MagikeHelper.SpawnDustOnGenerate(2, 3, Position, Color.Pink);
+            Timer = ProductionDelayBase;
         }
     }
 }
