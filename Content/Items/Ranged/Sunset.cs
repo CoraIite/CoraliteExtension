@@ -19,6 +19,8 @@ namespace CoraliteExtension.Content.Items.Ranged
     {
         public override string Texture => AssetDirectoryEX.RangedItems + Name;
 
+        public float Priority => IDashable.HeldItemDash;
+
         public override void SetDefaults()
         {
             Item.SetWeaponValues(18, 2f);
@@ -31,6 +33,14 @@ namespace CoraliteExtension.Content.Items.Ranged
             Item.noUseGraphic = true;
 
             Item.UseSound = CoraliteSoundID.Bow_Item5;
+        }
+
+        public override void HoldItem(Player player)
+        {
+            if (player.TryGetModPlayer(out CoralitePlayer cp))
+            {
+                cp.AddDash(this);
+            }
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

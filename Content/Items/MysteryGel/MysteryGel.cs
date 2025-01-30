@@ -1,10 +1,11 @@
 ﻿using Coralite.Core;
 using Coralite.Core.Systems.MagikeSystem;
 using Coralite.Core.Systems.MagikeSystem.MagikeCraft;
-using Coralite.Core.Systems.ParticleSystem;
 using CoraliteExtension.Content.Particles;
 using CoraliteExtension.Core;
+using InnoVault.PRT;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -36,18 +37,18 @@ namespace CoraliteExtension.Content.Items.MysteryGel
 
     public abstract class BaseMysteryGelItem : ModItem
     {
-        private static ParticleGroup group;
+        private static PRTGroup group;
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            group?.UpdateParticles();
+            group?.Update();
         }
 
         public override bool PreDrawTooltipLine(DrawableTooltipLine line, ref int yOffset)
         {
             if (line.Mod == "Terraria" && line.Name == "ItemName")
             {
-                group ??= new ParticleGroup();
+                group ??= new PRTGroup();
                 if (group != null)
                 {
                     if (!Main.gamePaused && Main.GameUpdateCount % 10 == 0)
@@ -76,7 +77,7 @@ namespace CoraliteExtension.Content.Items.MysteryGel
                             Main.rand.NextFloat(-1.57f - 0.3f, -1.57f + 0.3f).ToRotationVector2() * speed  , type, c, scale);
                     }
                 }
-                group?.DrawParticlesInUI(Main.spriteBatch);
+                group?.DrawInUI(Main.spriteBatch);
             }
 
             return true;
@@ -87,18 +88,18 @@ namespace CoraliteExtension.Content.Items.MysteryGel
     {
         public override string Texture => AssetDirectoryEX.Particles + Name;
 
-        public override void OnSpawn()
+        public override void SetProperty()
         {
-            shouldKilledOutScreen = false;
+            ShouldKillWhenOffScreen = false;
             Frame = new Rectangle(Main.rand.Next(2) * 10, Main.rand.Next(2) * 10, 10, 10);
             Rotation = Main.rand.NextFloat(6.282f);
         }
 
-        public override void Update()
+        public override void AI()
         {
-            fadeIn++;
+            Opacity++;
 
-            if (fadeIn % 25 == 0)
+            if (Opacity % 25 == 0)
                 if (Frame.Y < 20)
                     Frame.Y += 10;
 
@@ -121,8 +122,13 @@ namespace CoraliteExtension.Content.Items.MysteryGel
                     break;
             }
 
-            if (Scale < 0.001 || fadeIn > 100)
+            if (Scale < 0.001 || Opacity > 100)
                 active = false;
+        }
+
+        public override void DrawInUI(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(TexValue, Position, Frame, Color, Rotation, Frame.Size() / 2, Scale, 0, 0);
         }
     }
 

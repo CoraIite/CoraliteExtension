@@ -1,6 +1,6 @@
-﻿using Coralite.Core.Systems.ParticleSystem;
-using CoraliteExtension.Core;
+﻿using CoraliteExtension.Core;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 
 namespace CoraliteExtension.Content.Particles
@@ -9,30 +9,35 @@ namespace CoraliteExtension.Content.Particles
     {
         public override string Texture => AssetDirectoryEX.Particles + Name;
 
-        public override void OnSpawn()
+        public override void SetProperty()
         {
             Frame = new Rectangle(0, Main.rand.Next(3) * 22, 22, 22);
-            shouldKilledOutScreen = false;
+            ShouldKillWhenOffScreen = false;
         }
 
-        public override void Update()
+        public override void AI()
         {
-            fadeIn++;
+            Opacity++;
 
-            if (fadeIn % 5 == 0)
+            if (Opacity % 5 == 0)
             {
                 Frame.X += 22;
                 if (Frame.X > 3 * 22)
                     Frame.X = 0;
             }
 
-            if (fadeIn > 45)
-                color *= 0.9f;
+            if (Opacity > 45)
+                Color *= 0.9f;
 
-            if (color.A < 10 || fadeIn > 90)
+            if (Color.A < 10 || Opacity > 90)
             {
                 active = false;
             }
+        }
+
+        public override void DrawInUI(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(TexValue, Position, Frame, Color, Rotation, Frame.Size() / 2, Scale, 0, 0);
         }
     }
 }

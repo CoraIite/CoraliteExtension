@@ -55,6 +55,11 @@ namespace CoraliteExtension.Content.Items.FlyingShield
         {
             if (player.ItemTimeIsZero && player.ownedProjectileCounts[Item.shoot] == 0)
                 player.GetModPlayer<CoraliteEXPlayer>().AddEffect(nameof(CobaltFlyingShield));
+
+            if (player.TryGetModPlayer(out CoralitePlayer cp))
+            {
+                cp.AddDash(this);
+            }
         }
     }
 

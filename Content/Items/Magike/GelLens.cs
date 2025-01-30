@@ -7,10 +7,10 @@ using Coralite.Core.Systems.MagikeSystem.Components;
 using Coralite.Core.Systems.MagikeSystem.Components.Producers;
 using Coralite.Core.Systems.MagikeSystem.TileEntities;
 using Coralite.Core.Systems.MagikeSystem.Tiles;
-using Coralite.Core.Systems.ParticleSystem;
 using CoraliteExtension.Content.Items.MysteryGel;
 using CoraliteExtension.Content.Particles;
 using CoraliteExtension.Core;
+using InnoVault.PRT;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -27,7 +27,7 @@ namespace CoraliteExtension.Content.Items.Magike
     public class GelLens() : MagikeApparatusItem(TileType<GelLensTile>(), Item.sellPrice(silver: 20)
             , RarityType<MysteryGelRarity>(), AssetDirectoryEX.MagikeItems)
     {
-        private static ParticleGroup group;
+        private static PRTGroup group;
 
         public static LocalizedText ProduceCondition {  get;private set; }
 
@@ -53,14 +53,14 @@ namespace CoraliteExtension.Content.Items.Magike
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             base.ModifyTooltips(tooltips);
-            group?.UpdateParticles();
+            group?.Update();
         }
 
         public override bool PreDrawTooltipLine(DrawableTooltipLine line, ref int yOffset)
         {
             if (line.Mod == "Terraria" && line.Name == "ItemName")
             {
-                group ??= new ParticleGroup();
+                group ??= new PRTGroup();
                 if (group != null)
                 {
                     if (!Main.gamePaused && Main.GameUpdateCount % 10 == 0)
@@ -89,7 +89,7 @@ namespace CoraliteExtension.Content.Items.Magike
                             Main.rand.NextFloat(-1.57f - 0.3f, -1.57f + 0.3f).ToRotationVector2() * speed, type, c, scale);
                     }
                 }
-                group?.DrawParticlesInUI(Main.spriteBatch);
+                group?.DrawInUI(Main.spriteBatch);
             }
 
             return true;
@@ -103,8 +103,6 @@ namespace CoraliteExtension.Content.Items.Magike
 
         public override int DropItemType => ItemType<GelLens>();
 
-        public override MagikeTileEntity GetEntityInstance() => GetInstance<GelLensTileEntity>();
-
         public override MALevel[] GetAllLevels()
         {
             return [
@@ -113,7 +111,7 @@ namespace CoraliteExtension.Content.Items.Magike
                 ];
         }
 
-        public override void DrawExtraTex(SpriteBatch spriteBatch, Texture2D tex, Rectangle tileRect, Vector2 offset, Color lightColor, float rotation, MagikeTileEntity entity, MALevel level)
+        public override void DrawExtraTex(SpriteBatch spriteBatch, Texture2D tex, Rectangle tileRect, Vector2 offset, Color lightColor, float rotation, MagikeTP entity, MALevel level)
         {
             Vector2 selfCenter = tileRect.Center();
             Vector2 drawPos = selfCenter + offset;
@@ -205,8 +203,8 @@ namespace CoraliteExtension.Content.Items.Magike
             };
             LimitMagikeAmount();
 
-            AntiMagikeMaxBase = MagikeMaxBase * 2;
-            LimitAntiMagikeAmount();
+            //AntiMagikeMaxBase = MagikeMaxBase * 2;
+            //LimitAntiMagikeAmount();
         }
     }
 

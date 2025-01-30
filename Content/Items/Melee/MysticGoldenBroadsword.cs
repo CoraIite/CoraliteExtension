@@ -6,10 +6,10 @@ using Coralite.Core.Prefabs.Projectiles;
 using Coralite.Core.Systems.MagikeSystem;
 using Coralite.Core.Systems.MagikeSystem.EnchantSystem;
 using Coralite.Core.Systems.MagikeSystem.MagikeCraft;
-using Coralite.Core.Systems.ParticleSystem;
 using Coralite.Helpers;
 using CoraliteExtension.Content.Particles;
 using CoraliteExtension.Core;
+using InnoVault.PRT;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -29,13 +29,11 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CoraliteExtension.Content.Items.Melee
 {
-    public class MysticGoldenBroadsword : ModItem, IMagikeCraftable, ISpecialEnchantable
+    public class MysticGoldenBroadsword : ModItem, IMagikeCraftable
     {
         public override string Texture => AssetDirectoryEX.MeleeItems + Name;
 
-        public int SelfType => ItemID.GoldBroadsword;
-
-        private static ParticleGroup group;
+        private static PRTGroup group;
         private int useCount;
 
         public override void SetDefaults()
@@ -92,14 +90,14 @@ namespace CoraliteExtension.Content.Items.Melee
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            group?.UpdateParticles();
+            group?.Update();
         }
 
         public override bool PreDrawTooltipLine(DrawableTooltipLine line, ref int yOffset)
         {
             if (line.Mod == "Terraria" && line.Name == "ItemName")
             {
-                group ??= new ParticleGroup();
+                group ??= new ();
                 if (group != null)
                 {
                     if (!Main.gamePaused && Main.GameUpdateCount % 20 == 0)
@@ -110,21 +108,16 @@ namespace CoraliteExtension.Content.Items.Melee
                             , Main.rand.NextBool() ? Color.White : Color.Gold, Main.rand.NextFloat(0.4f, 0.7f));
                     }
                 }
-                group?.DrawParticlesInUI(Main.spriteBatch);
+                group?.DrawInUI(Main.spriteBatch);
             }
 
             return true;
         }
 
-        public EnchantEntityPool GetEntityPool()
-        {
-            return EnchantEntityPools.remodelableWeaponPool;
-        }
-
         public void AddMagikeCraftRecipe()
         {
-            MagikeSystem.AddRemodelRecipe( ItemID.GoldBroadsword,ItemType< MysticGoldenBroadsword >(),
-                MagikeHelper.CalculateMagikeCost(MALevel.Glistent,24,60*8), conditions:Condition.DownedEyeOfCthulhu);
+            //MagikeSystem.AddRemodelRecipe( ItemID.GoldBroadsword,ItemType< MysticGoldenBroadsword >(),
+            //    MagikeHelper.CalculateMagikeCost(MALevel.Glistent,24,60*8), conditions:Condition.DownedEyeOfCthulhu);
         }
     }
 
@@ -259,7 +252,7 @@ namespace CoraliteExtension.Content.Items.Melee
 
             if (Main.rand.NextBool(12))
             {
-                Particle.NewParticle(Top - RotateVec2 * 16 + Main.rand.NextVector2Circular(32, 32), dir.RotatedBy(Main.rand.NextFloat(-0.4f, 0.4f)) * Main.rand.NextFloat(0.5f, 1.5f),
+                PRTLoader.NewParticle(Top - RotateVec2 * 16 + Main.rand.NextVector2Circular(32, 32), dir.RotatedBy(Main.rand.NextFloat(-0.4f, 0.4f)) * Main.rand.NextFloat(0.5f, 1.5f),
                     CoraliteContent.ParticleType<HorizontalStar>(), Color.Gold, Main.rand.NextFloat(0.05f, 0.15f));
             }
             switch ((int)Combo)
@@ -373,7 +366,7 @@ namespace CoraliteExtension.Content.Items.Melee
                 {
                     Effect effect = Filters.Scene["SimpleGradientTrail"].GetShader().Shader;
 
-                    effect.Parameters["transformMatrix"].SetValue(Helper.GetTransfromMaxrix());
+                    effect.Parameters["transformMatrix"].SetValue(Helper.GetTransfromMatrix());
                     effect.Parameters["sampleTexture"].SetValue(CoraliteAssets.Trail.LiteSlashBright.Value);
                     effect.Parameters["gradientTexture"].SetValue(GradientTexture.Value);
 

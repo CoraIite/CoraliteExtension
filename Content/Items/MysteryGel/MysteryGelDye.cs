@@ -34,7 +34,7 @@ namespace CoraliteExtension.Content.Items.MysteryGel
 
         public void AddMagikeCraftRecipe()
         {
-            MagikeCraftRecipe.CreateRecipe<MysteryGel, MysteryGelDye>(MagikeHelper.CalculateMagikeCost(MALevel.Pelagic, 6, 5 * 60))
+            MagikeRecipe.CreateRecipe<MysteryGel, MysteryGelDye>(MagikeHelper.CalculateMagikeCost(MALevel.Pelagic, 6, 5 * 60))
                 .AddIngredient(ItemID.Gel, 49)
                 .AddIngredient(ItemID.PinkGel, 9)
                 .AddIngredient(ItemID.GelBalloon, 9)

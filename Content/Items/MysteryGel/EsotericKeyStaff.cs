@@ -67,7 +67,7 @@ namespace CoraliteExtension.Content.Items.MysteryGel
 
         public void AddMagikeCraftRecipe()
         {
-            MagikeCraftRecipe.CreateRecipe<MysteryGel,EsotericKeyStaff>(MagikeHelper.CalculateMagikeCost(MALevel.Soul,12,10*60),10)
+            MagikeRecipe.CreateRecipe<MysteryGel,EsotericKeyStaff>(MagikeHelper.CalculateMagikeCost(MALevel.Soul,12,10*60),10)
                 .AddIngredient(ItemID.SoulofFright)
                 .AddIngredient(ItemID.SoulofMight)
                 .AddIngredient(ItemID.SoulofSight)
@@ -1025,7 +1025,7 @@ namespace CoraliteExtension.Content.Items.MysteryGel
                 scale = Vector2.Lerp(new Vector2(1.5f, 2), new Vector2(1f, 1.1f), (Timer - minTime / 2) / (minTime / 2));
             else
             {
-                HelperEX.PlayPitched("Misc/LaserSwing", 1f, 0f, Projectile.Center);
+                Helper.PlayPitched("Misc/LaserSwing", 1f, 0f, Projectile.Center);
                 SoundStyle st = CoraliteSoundID.LaserSwing_Item15;
                 st.Volume = 1;
                 SoundEngine.PlaySound(st, Projectile.Center);
@@ -1053,7 +1053,7 @@ namespace CoraliteExtension.Content.Items.MysteryGel
 
             if (timer % 20 == 0)
             {
-                HelperEX.PlayPitched("Misc/LaserSwing", 1f, 0f, Projectile.Center);
+                Helper.PlayPitched("Misc/LaserSwing", 1f, 0f, Projectile.Center);
                 SoundStyle st = CoraliteSoundID.LaserSwing_Item15;
                 st.Volume = 1;
                 SoundEngine.PlaySound(st, Projectile.Center);

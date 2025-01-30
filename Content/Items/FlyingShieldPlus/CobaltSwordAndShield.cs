@@ -1,4 +1,5 @@
 ﻿using Coralite.Content.Items.FlyingShields;
+using Coralite.Content.ModPlayers;
 using Coralite.Content.Particles;
 using Coralite.Core;
 using Coralite.Core.Configs;
@@ -9,6 +10,7 @@ using Coralite.Helpers;
 using CoraliteExtension.Content.Items.FlyingShield;
 using CoraliteExtension.Content.Items.Melee;
 using CoraliteExtension.Core;
+using InnoVault.PRT;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -48,6 +50,14 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
 
             Item.useTurn = false;
             Item.autoReuse = true;
+        }
+
+        public override void HoldItem(Player player)
+        {
+            if (player.TryGetModPlayer(out CoralitePlayer cp))
+            {
+                cp.AddDash(this);
+            }
         }
 
         public override void LeftAttack(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -229,7 +239,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
             recordCenter = Owner.Center;
             Projectile.extraUpdates = 4;
             alpha = 0;
-            recordDirection = OwnerDirection;
+            recordDirection = Owner.direction;
             switch (Combo)
             {
                 default:
@@ -296,7 +306,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
             Projectile.velocity *= 0f;
             if (Owner.whoAmI == Main.myPlayer)
             {
-                _Rotation = GetStartAngle() - OwnerDirection * startAngle;//设定起始角度
+                _Rotation = GetStartAngle() - Owner.direction * startAngle;//设定起始角度
             }
 
             Slasher();
@@ -333,11 +343,11 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
             if (Combo > 2)
                 return;
 
-            recordDirection = OwnerDirection;
+            recordDirection = Owner.direction;
             if (Main.mouseLeft && channel)
             {
                 Timer = 1;
-                _Rotation = GetStartAngle() - OwnerDirection * startAngle;
+                _Rotation = GetStartAngle() - Owner.direction * startAngle;
                 Slasher();
                 if (channelTimer < ChannelTimeMax)
                 {
@@ -360,8 +370,8 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
 
             Timer = minTime + 1;
             recordAngle = GetStartAngle();
-            _Rotation = startAngle = recordAngle - OwnerDirection * startAngle;//设定起始角度
-            totalAngle *= OwnerDirection;
+            _Rotation = startAngle = recordAngle - Owner.direction * startAngle;//设定起始角度
+            totalAngle *= Owner.direction;
             if (channelTimer >= ChannelTimeMax)
             {
                 Smoother = Coralite.Coralite.Instance.HeavySmootherInstance;
@@ -439,7 +449,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
                 {
                     if (Timer % 6 == 0)
                     {
-                        Particle.NewParticle<SpeedLine>(OwnerCenter() + Main.rand.NextVector2Circular(Projectile.height * 1.5f, Projectile.height * 1.5f)
+                        PRTLoader.NewParticle<SpeedLine>(OwnerCenter() + Main.rand.NextVector2Circular(Projectile.height * 1.5f, Projectile.height * 1.5f)
                              , dir * Main.rand.NextFloat(6, 8), Color.CadetBlue, Main.rand.NextFloat(0.2f, 0.4f));
                     }
                 }
@@ -514,8 +524,8 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
             if (Combo < 3 && Timer <= minTime)
             {
                 int dir = recordDirection;
-                float extraRot = OwnerDirection < 0 ? MathHelper.Pi : 0;
-                extraRot += OwnerDirection == dir ? 0 : MathHelper.Pi;
+                float extraRot = Owner.direction < 0 ? MathHelper.Pi : 0;
+                extraRot += Owner.direction == dir ? 0 : MathHelper.Pi;
                 extraRot += spriteRotation * dir;
 
                 return extraRot;
@@ -527,7 +537,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
         {
             if (Combo < 3 && Timer <= minTime)
             {
-                if (OwnerDirection < 0)
+                if (Owner.direction < 0)
                 {
                     if (recordDirection > 0)
                         return SpriteEffects.None;
@@ -596,7 +606,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
                 {
                     Effect effect =  Filters.Scene[Combo>2? "SimpleGradientTrail" : "NoHLGradientTrail"].GetShader().Shader;
 
-                    effect.Parameters["transformMatrix"].SetValue(Helper.GetTransfromMaxrix());
+                    effect.Parameters["transformMatrix"].SetValue(Helper.GetTransfromMatrix());
                     effect.Parameters["sampleTexture"].SetValue(Combo > 2 ? CoraliteAssets.Trail.LiteSlashBrightHMirror.Value : CoraliteAssets.Trail.LiteSlashBright.Value);
                     effect.Parameters["gradientTexture"].SetValue(GradientTexture.Value);
 

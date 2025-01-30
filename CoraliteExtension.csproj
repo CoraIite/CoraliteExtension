@@ -26,5 +26,8 @@
     <Reference Include="Coralite">
       <HintPath>..\Coralite\obj\Debug\net8.0\Coralite.dll</HintPath>
     </Reference>
+    <Reference Include="InnoVault">
+      <HintPath>..\InnoVault\bin\Debug\net8.0\InnoVault.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

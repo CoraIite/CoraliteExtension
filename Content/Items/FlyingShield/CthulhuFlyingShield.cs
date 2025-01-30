@@ -53,6 +53,11 @@ namespace CoraliteExtension.Content.Items.FlyingShield
         {
             if (player.ItemTimeIsZero && player.ownedProjectileCounts[Item.shoot] == 0)
                 player.GetModPlayer<CoraliteEXPlayer>().AddEffect(nameof(CthulhuFlyingShield));
+
+            if (player.TryGetModPlayer(out CoralitePlayer cp))
+            {
+                cp.AddDash(this);
+            }
         }
     }
 
