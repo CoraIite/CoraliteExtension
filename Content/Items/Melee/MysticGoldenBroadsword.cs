@@ -9,6 +9,7 @@ using Coralite.Core.Systems.MagikeSystem.MagikeCraft;
 using Coralite.Helpers;
 using CoraliteExtension.Content.Particles;
 using CoraliteExtension.Core;
+using InnoVault;
 using InnoVault.PRT;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -167,7 +168,7 @@ namespace CoraliteExtension.Content.Items.Melee
             GradientTexture = null;
         }
 
-        public override void SetDefs()
+        public override void SetSwingProperty()
         {
             Projectile.DamageType = DamageClass.Melee;
             Projectile.hide = true;
@@ -185,7 +186,7 @@ namespace CoraliteExtension.Content.Items.Melee
             return 70 * Projectile.scale;
         }
 
-        protected override void Initializer()
+        protected override void InitBasicValues()
         {
             if (Main.myPlayer == Projectile.owner)
                 Owner.direction = Main.MouseWorld.X > Owner.Center.X ? 1 : -1;
@@ -225,8 +226,6 @@ namespace CoraliteExtension.Content.Items.Melee
 
                     break;
             }
-
-            base.Initializer();
         }
 
         protected override float GetStartAngle() => Owner.direction > 0 ? 0f : MathHelper.Pi;
@@ -366,7 +365,7 @@ namespace CoraliteExtension.Content.Items.Melee
                 {
                     Effect effect = Filters.Scene["SimpleGradientTrail"].GetShader().Shader;
 
-                    effect.Parameters["transformMatrix"].SetValue(Helper.GetTransfromMatrix());
+                    effect.Parameters["transformMatrix"].SetValue(VaultUtils.GetTransfromMatrix());
                     effect.Parameters["sampleTexture"].SetValue(CoraliteAssets.Trail.LiteSlashBright.Value);
                     effect.Parameters["gradientTexture"].SetValue(GradientTexture.Value);
 

@@ -1,5 +1,5 @@
 displayName = 海中星
 author = 瓶中微光
-version = 0.16
+version = 0.17
 modReferences = Coralite@0.2.1.1,InnoVault@1.7
 sortAfter = Coralite,InnoVault,DDmod

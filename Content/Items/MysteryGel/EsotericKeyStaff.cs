@@ -67,7 +67,7 @@ namespace CoraliteExtension.Content.Items.MysteryGel
 
         public void AddMagikeCraftRecipe()
         {
-            MagikeRecipe.CreateRecipe<MysteryGel,EsotericKeyStaff>(MagikeHelper.CalculateMagikeCost(MALevel.Soul,12,10*60),10)
+            MagikeRecipe.CreateCraftRecipe<MysteryGel,EsotericKeyStaff>(MagikeHelper.CalculateMagikeCost(MALevel.Soul,12,10*60),10)
                 .AddIngredient(ItemID.SoulofFright)
                 .AddIngredient(ItemID.SoulofMight)
                 .AddIngredient(ItemID.SoulofSight)
@@ -899,7 +899,7 @@ namespace CoraliteExtension.Content.Items.MysteryGel
             GradientTexture = Request<Texture2D>(AssetDirectoryEX.MysteryGelItems + "EsotericKeyGradient");
         }
 
-        public override void SetDefs()
+        public override void SetSwingProperty()
         {
             Projectile.DamageType = DamageClass.Summon;
             Projectile.localNPCHitCooldown = 30;
@@ -912,7 +912,7 @@ namespace CoraliteExtension.Content.Items.MysteryGel
             useSlashTrail = true;
         }
 
-        protected override void Initializer()
+        protected override void InitBasicValues()
         {
             if (!Main.projectile.IndexInRange((int)OwnerIndex))
             {

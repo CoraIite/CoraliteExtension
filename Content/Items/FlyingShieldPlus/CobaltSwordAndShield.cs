@@ -10,6 +10,7 @@ using Coralite.Helpers;
 using CoraliteExtension.Content.Items.FlyingShield;
 using CoraliteExtension.Content.Items.Melee;
 using CoraliteExtension.Core;
+using InnoVault;
 using InnoVault.PRT;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -200,7 +201,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
             GradientTexture = null;
         }
 
-        public override void SetDefs()
+        public override void SetSwingProperty()
         {
             Projectile.DamageType = DamageClass.Melee;
             Projectile.localNPCHitCooldown = -1;
@@ -231,7 +232,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
             return 90 * Projectile.scale;
         }
 
-        protected override void Initializer()
+        protected override void InitBasicValues()
         {
             if (Combo < 3 && Main.myPlayer == Projectile.owner)
                 Owner.direction = Main.MouseWorld.X > Owner.Center.X ? 1 : -1;
@@ -299,7 +300,14 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
                 useSlashTrail = true;
                 Projectile.hide = false;
                 delay += 55;
-                base.Initializer();
+            }
+        }
+
+        protected override void InitializeSwing()
+        {
+            if (Combo > 2)
+            {
+                base.InitializeSwing();
                 return;
             }
 
@@ -606,7 +614,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
                 {
                     Effect effect =  Filters.Scene[Combo>2? "SimpleGradientTrail" : "NoHLGradientTrail"].GetShader().Shader;
 
-                    effect.Parameters["transformMatrix"].SetValue(Helper.GetTransfromMatrix());
+                    effect.Parameters["transformMatrix"].SetValue(VaultUtils.GetTransfromMatrix());
                     effect.Parameters["sampleTexture"].SetValue(Combo > 2 ? CoraliteAssets.Trail.LiteSlashBrightHMirror.Value : CoraliteAssets.Trail.LiteSlashBright.Value);
                     effect.Parameters["gradientTexture"].SetValue(GradientTexture.Value);
 
