@@ -1,11 +1,6 @@
 # This file will automatically update with entries for new content after a build and reload
 
 Items: {
-	啊: {
-		DisplayName: 啊
-		Tooltip: ""
-	}
-
 	MysticGoldenBroadsword: {
 		DisplayName: 秘金剑
 		Tooltip: 使用注入神秘魔法的金锭制成
@@ -78,6 +73,11 @@ Items: {
 			[c/c2370d:"落日余晖"]
 			'''
 	}
+
+	WoodWax: {
+		DisplayName: 木蜡
+		Tooltip: 孢子喷发
+	}
 }
 
 Projectiles: {
@@ -95,7 +95,9 @@ Projectiles: {
 	CobaltFlyingShieldPlusProj.DisplayName: 钴盾
 	CobaltShieldPlusGuard.DisplayName: 钴盾
 	CobaltSwordSlash.DisplayName: 钴剑
-	// SunsetHeldProj.DisplayName: Sunset Held Proj
+	SunsetHeldProj.DisplayName: 落日
+	WoodWaxBullet.DisplayName: 木蜡球
+	WoodWaxHeldProj.DisplayName: 木蜡
 }
 
 Buffs: {

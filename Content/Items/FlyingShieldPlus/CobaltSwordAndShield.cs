@@ -177,7 +177,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
         private float extraScaleAngle;
         private float channelTimer;
 
-        public const int ChannelTimeMax = 30 * 4;
+        public const int ChannelTimeMax = 30 * 3;
 
         public float distance;
         public float distanceA;
@@ -387,7 +387,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
                 //射弹幕
                 if (!channel)
                     Projectile.NewProjectileFromThis<CobaltSwordSlash>(Owner.Center, Vector2.Zero
-                        , Projectile.damage , Projectile.knockBack, Combo + 3);
+                        , Projectile.damage * 2, Projectile.knockBack, Combo + 3);
             }
         }
 

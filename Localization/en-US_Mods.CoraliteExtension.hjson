@@ -1,11 +1,6 @@
 # This file will automatically update with entries for new content after a build and reload
 
 Items: {
-	啊: {
-		DisplayName: 啊
-		Tooltip: ""
-	}
-
 	MysticGoldenBroadsword: {
 		DisplayName: Mystic Golden Broadsword
 		Tooltip: Made with gold ingots infused with mystical magic
@@ -82,6 +77,11 @@ Items: {
 			[c/c2370d:"Light Of The Setting Sun"]
 			'''
 	}
+
+	WoodWax: {
+		DisplayName: Wood Wax
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -100,6 +100,8 @@ Projectiles: {
 	CobaltShieldPlusGuard.DisplayName: Cobalt Shield Guard
 	CobaltSwordSlash.DisplayName: Cobalt Sword
 	SunsetHeldProj.DisplayName: Sunset Held Proj
+	WoodWaxBullet.DisplayName: Wood Wax Bullet
+	WoodWaxHeldProj.DisplayName: Wood Wax Held Proj
 }
 
 Buffs: {

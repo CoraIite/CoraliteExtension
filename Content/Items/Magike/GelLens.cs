@@ -213,13 +213,13 @@ namespace CoraliteExtension.Content.Items.Magike
         public override void Upgrade(MALevel incomeLevel)
         {
             MaxConnectBase = 1;
-            ConnectLengthBase = 4 * 16;
+            ConnectLengthBase = 6 * 16;
             switch (incomeLevel)
             {
                 default:
                     MaxConnectBase = 0;
                     UnitDeliveryBase = 0;
-                    SendDelayBase = 1_0000_0000 / 60;//随便填个大数
+                    SendDelayBase = -1;//随便填个大数
                     ConnectLengthBase = 0;
                     break;
                 case MALevel.CrystallineMagike:
@@ -266,7 +266,7 @@ namespace CoraliteExtension.Content.Items.Magike
             ProductionDelayBase = incomeLevel switch
             {
                  MALevel.CrystallineMagike => 10,
-                _ => 1_0000_0000 / 60,//随便填个大数
+                _ => -1,//随便填个大数
             } * 60;
 
             Timer = ProductionDelayBase;
