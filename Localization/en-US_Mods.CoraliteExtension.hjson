@@ -18,7 +18,8 @@ Items: {
 			Put in the gel to produce magike
 			Gel：60，pink gel：80，emperor gel: 120, mystery gel：300
 			'''
-		ProduceCondition: "  ▶ Need put gels into it"
+		ProduceCondition: Need put gels into it
+		LensName: Gel Lens
 	}
 
 	MysteryGelDye: {

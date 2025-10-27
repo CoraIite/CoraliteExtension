@@ -1,5 +1,6 @@
 ﻿using Coralite.Content.Items.Gels;
 using Coralite.Content.Items.MagikeSeries2;
+using Coralite.Content.UI.MagikeApparatusPanel;
 using Coralite.Core;
 using Coralite.Core.Systems.MagikeSystem;
 using Coralite.Core.Systems.MagikeSystem.BaseItems;
@@ -7,6 +8,7 @@ using Coralite.Core.Systems.MagikeSystem.Components;
 using Coralite.Core.Systems.MagikeSystem.Components.Producers;
 using Coralite.Core.Systems.MagikeSystem.TileEntities;
 using Coralite.Core.Systems.MagikeSystem.Tiles;
+using Coralite.Helpers;
 using CoraliteExtension.Content.Items.MysteryGel;
 using CoraliteExtension.Content.Particles;
 using CoraliteExtension.Core;
@@ -16,9 +18,12 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.UI.Elements;
+using Terraria.UI;
 using Terraria.UI.Chat;
 using static Terraria.ModLoader.ModContent;
 
@@ -30,15 +35,21 @@ namespace CoraliteExtension.Content.Items.Magike
         private static PRTGroup group;
 
         public static LocalizedText ProduceCondition {  get;private set; }
+        public static LocalizedText LensName {  get;private set; }
 
         public override void Load()
         {
+            if (Main.dedServ)
+                return;
+
             ProduceCondition=this.GetLocalization(nameof(ProduceCondition));
+            LensName = this.GetLocalization(nameof(LensName));
         }
 
         public override void Unload()
         {
             ProduceCondition = null;
+            LensName = null;
         }
 
         public override void AddRecipes()
@@ -237,7 +248,7 @@ namespace CoraliteExtension.Content.Items.Magike
     {
         public override string GetCanProduceText => GelLens.ProduceCondition.Value;
 
-        public override MagikeSystem.UITextID NameText { get => MagikeSystem.UITextID.GelLensName; }
+        public override MagikeSystem.UITextID NameText { get => MagikeSystem.UITextID.ForestLensName; }
 
         public override bool CanConsumeItem(Item item)
             => item.type is ItemID.Gel or ItemID.PinkGel || item.type == ItemType<MysteryGel.MysteryGel>()|| item.type == ItemType<EmperorGel>();
@@ -270,6 +281,29 @@ namespace CoraliteExtension.Content.Items.Magike
             } * 60;
 
             Timer = ProductionDelayBase;
+        }
+
+        public override void ShowInUI(UIElement parent)
+        {
+            UIElement uIElement = new ComponentUIElementText<GelProducer>(c =>
+                GelLens.LensName.Value, this, parent, new Vector2(1.3f));
+            parent.Append(uIElement);
+
+            UIGrid uIGrid = ItemSlotGrid();
+            uIGrid.SetSize(200f, 500f);
+
+            UIList uIList = new UIList
+            {
+                new TimerProgressBar(this),
+                this.NewTextBar((MagikeCostItemProducer c) => MagikeSystem.GetUIText(MagikeSystem.UITextID.ProduceCondition), parent),
+                this.NewTextBar((MagikeCostItemProducer c) => "  ▶ " + c.GetCanProduceText, parent),
+                uIGrid
+            };
+
+            uIList.SetSize(0f, 0f - uIElement.Height.Pixels, 1f, 1f);
+            uIList.SetTopLeft(uIElement.Height.Pixels + 8f, 0f);
+            uIList.QuickInvisibleScrollbar();
+            parent.Append(uIList);
         }
     }
 }

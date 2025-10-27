@@ -18,7 +18,8 @@ Items: {
 			放入凝胶以生产魔能
 			凝胶：60，粉凝胶：80，帝凝胶：120，秘境凝胶：300
 			'''
-		ProduceCondition: "  ▶ 需要放入凝胶"
+		ProduceCondition: 需要放入凝胶
+		LensName: 凝胶透镜
 	}
 
 	MysteryGelDye: {
