@@ -21,6 +21,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Items\Misc\" />
+    <Folder Include="Datas\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Coralite">

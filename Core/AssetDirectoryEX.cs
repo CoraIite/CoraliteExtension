@@ -18,5 +18,7 @@
         public const string Tiles = Assets + "Tiles/";
         public const string MagikeTiles = Tiles + "Magike/";
 
+        public const string Datas = "Datas/";
+
     }
 }

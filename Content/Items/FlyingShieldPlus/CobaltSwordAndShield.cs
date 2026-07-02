@@ -612,7 +612,7 @@ namespace CoraliteExtension.Content.Items.FlyingShieldPlus
             {
                 Helper.DrawTrail(Main.graphics.GraphicsDevice, () =>
                 {
-                    Effect effect =  Filters.Scene[Combo>2? "SimpleGradientTrail" : "NoHLGradientTrail"].GetShader().Shader;
+                    Effect effect = Coralite.Core.Loaders.ShaderLoader.GetShader(Combo > 2 ? "SimpleGradientTrail" : "NoHLGradientTrail");
 
                     effect.Parameters["transformMatrix"].SetValue(VaultUtils.GetTransfromMatrix());
                     effect.Parameters["sampleTexture"].SetValue(Combo > 2 ? CoraliteAssets.Trail.LiteSlashBrightHMirror.Value : CoraliteAssets.Trail.LiteSlashBright.Value);

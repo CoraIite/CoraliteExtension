@@ -363,7 +363,7 @@ namespace CoraliteExtension.Content.Items.Melee
             {
                 Helper.DrawTrail(Main.graphics.GraphicsDevice, () =>
                 {
-                    Effect effect = Filters.Scene["SimpleGradientTrail"].GetShader().Shader;
+                    Effect effect = Coralite.Core.Loaders.ShaderLoader.GetShader("SimpleGradientTrail");
 
                     effect.Parameters["transformMatrix"].SetValue(VaultUtils.GetTransfromMatrix());
                     effect.Parameters["sampleTexture"].SetValue(CoraliteAssets.Trail.LiteSlashBright.Value);

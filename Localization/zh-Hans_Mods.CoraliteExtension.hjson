@@ -109,3 +109,15 @@ Buffs: {
 }
 
 EXSystem.FlyingShieldGlobalItem.TransformTips: "[c/4f80bd:物品栏内右键以转换为飞盾]"
+
+MagikeSystem: {
+	UpgradableProps: {
+		// MagikeMaxBase: Mods.CoraliteExtension.MagikeSystem.UpgradableProps.MagikeMaxBase
+		// MaxConnectBase: Mods.CoraliteExtension.MagikeSystem.UpgradableProps.MaxConnectBase
+		// ConnectLengthBase: Mods.CoraliteExtension.MagikeSystem.UpgradableProps.ConnectLengthBase
+		// UnitDeliveryBase: Mods.CoraliteExtension.MagikeSystem.UpgradableProps.UnitDeliveryBase
+		// SendDelayBase: Mods.CoraliteExtension.MagikeSystem.UpgradableProps.SendDelayBase
+		// ProductionDelayBase: Mods.CoraliteExtension.MagikeSystem.UpgradableProps.ProductionDelayBase
+		// ThroughputBase: Mods.CoraliteExtension.MagikeSystem.UpgradableProps.ThroughputBase
+	}
+}

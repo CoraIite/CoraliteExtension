@@ -42,9 +42,17 @@ namespace CoraliteExtension.Core
         /// <param name="path"></param>
         public static void LoadShader(string name, string path)
         {
+            name = "CoraliteEX" + name;
+
             var screenRef = CoraliteExtension.Instance.Assets.Request<Effect>(path, ReLogic.Content.AssetRequestMode.ImmediateLoad);
             Filters.Scene[name] = new Filter(new ScreenShaderData(screenRef, name + "Pass"), EffectPriority.High);
             Filters.Scene[name].Load();
+        }
+
+
+        public static Effect GetShader(string name)
+        {
+            return Filters.Scene["CoraliteEX" + name].GetShader().Shader;
         }
     }
 }

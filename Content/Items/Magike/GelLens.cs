@@ -6,6 +6,7 @@ using Coralite.Core.Systems.MagikeSystem;
 using Coralite.Core.Systems.MagikeSystem.BaseItems;
 using Coralite.Core.Systems.MagikeSystem.Components;
 using Coralite.Core.Systems.MagikeSystem.Components.Producers;
+using Coralite.Core.Systems.MagikeSystem.MagikeLevels;
 using Coralite.Core.Systems.MagikeSystem.TileEntities;
 using Coralite.Core.Systems.MagikeSystem.Tiles;
 using Coralite.Helpers;
@@ -114,15 +115,15 @@ namespace CoraliteExtension.Content.Items.Magike
 
         public override int DropItemType => ItemType<GelLens>();
 
-        public override MALevel[] GetAllLevels()
+        public override List<ushort> GetAllLevels()
         {
             return [
-                MALevel.None,
-                MALevel.CrystallineMagike,
+                NoneLevel.ID,
+                BrilliantLevel.ID,
                 ];
         }
 
-        public override void DrawExtraTex(SpriteBatch spriteBatch, Texture2D tex, Rectangle tileRect, Vector2 offset, Color lightColor, float rotation, MagikeTP entity, MALevel level)
+        public override void DrawExtraTex(SpriteBatch spriteBatch, Texture2D tex, Rectangle tileRect, Vector2 offset, Color lightColor, float rotation, MagikeTP entity, ushort level)
         {
             Vector2 selfCenter = tileRect.Center();
             Vector2 drawPos = selfCenter + offset;
@@ -203,48 +204,15 @@ namespace CoraliteExtension.Content.Items.Magike
             };
     }
 
-    public class GelLensContainer : UpgradeableContainer
+    public class GelLensContainer : UpgradeableContainer<GelLensTile>
     {
-        public override void Upgrade(MALevel incomeLevel)
-        {
-            MagikeMaxBase = incomeLevel switch
-            {
-                MALevel.CrystallineMagike => 2000,
-                _ => 0,
-            };
-            LimitMagikeAmount();
-
-            //AntiMagikeMaxBase = MagikeMaxBase * 2;
-            //LimitAntiMagikeAmount();
-        }
     }
 
-    public class GelLensSender : UpgradeableLinerSender
+    public class GelLensSender : UpgradeableLinerSender<GelLensTile>
     {
-        public override void Upgrade(MALevel incomeLevel)
-        {
-            MaxConnectBase = 1;
-            ConnectLengthBase = 6 * 16;
-            switch (incomeLevel)
-            {
-                default:
-                    MaxConnectBase = 0;
-                    UnitDeliveryBase = 0;
-                    SendDelayBase = -1;//随便填个大数
-                    ConnectLengthBase = 0;
-                    break;
-                case MALevel.CrystallineMagike:
-                    UnitDeliveryBase = 120;
-                    SendDelayBase = 4;
-                    break;
-            }
-
-            SendDelayBase *= 60;
-            RecheckConnect();
-        }
     }
 
-    public class GelProducer : UpgradeableCostItemProducer
+    public class GelProducer : UpgradeableCostItemProducer<GelLensTile>
     {
         public override string GetCanProduceText => GelLens.ProduceCondition.Value;
 
@@ -270,17 +238,6 @@ namespace CoraliteExtension.Content.Items.Magike
             }
 
             return 0;
-        }
-
-        public override void Upgrade(MALevel incomeLevel)
-        {
-            ProductionDelayBase = incomeLevel switch
-            {
-                 MALevel.CrystallineMagike => 10,
-                _ => -1,//随便填个大数
-            } * 60;
-
-            Timer = ProductionDelayBase;
         }
 
         public override void ShowInUI(UIElement parent)

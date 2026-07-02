@@ -4,9 +4,9 @@ using Coralite.Core.Configs;
 using Coralite.Core.Prefabs.Projectiles;
 using Coralite.Core.Systems.MagikeSystem;
 using Coralite.Core.Systems.MagikeSystem.MagikeCraft;
+using Coralite.Core.Systems.MagikeSystem.MagikeLevels;
 using Coralite.Helpers;
 using CoraliteExtension.Core;
-using CoraliteExtension.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -67,7 +67,7 @@ namespace CoraliteExtension.Content.Items.MysteryGel
 
         public void AddMagikeCraftRecipe()
         {
-            MagikeRecipe.CreateCraftRecipe<MysteryGel,EsotericKeyStaff>(MagikeHelper.CalculateMagikeCost(MALevel.Soul,12,10*60),10)
+            MagikeRecipe.CreateCraftRecipe<MysteryGel,EsotericKeyStaff>(MagikeHelper.CalculateMagikeCost<SoulLevel>(12,10*60),10)
                 .AddIngredient(ItemID.SoulofFright)
                 .AddIngredient(ItemID.SoulofMight)
                 .AddIngredient(ItemID.SoulofSight)
@@ -797,7 +797,7 @@ namespace CoraliteExtension.Content.Items.MysteryGel
             for (int i = 0; i < 1000; i++)
             {
                 Projectile projectile = Main.projectile[i];
-                if (projectile.active && projectile.owner == Projectile.owner && projectile.type == Projectile.type && (projectile.type != 759 || projectile.frame == Main.projFrames[projectile.type] - 1))
+                if (projectile.active && projectile.owner == Projectile.owner && projectile.type == Projectile.type && (projectile.type != ProjectileID.BabyBird || projectile.frame == Main.projFrames[projectile.type] - 1))
                 {
                     if (Projectile.whoAmI > i)
                         index++;
@@ -1179,7 +1179,7 @@ namespace CoraliteExtension.Content.Items.MysteryGel
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone, default, Main.GameViewMatrix.ZoomMatrix);
 
-                Effect effect = Filters.Scene["SimpleGradientTrail"].GetShader().Shader;
+                Effect effect = Coralite.Core.Loaders.ShaderLoader.GetShader("SimpleGradientTrail");
 
                 Matrix world = Matrix.CreateTranslation(-Main.screenPosition.Vec3());
                 Matrix view = Main.GameViewMatrix.TransformationMatrix;

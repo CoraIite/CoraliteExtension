@@ -1,0 +1,32 @@
+{
+  "GelLens": {
+    "MagikeMaxBase": {
+      "None": 0,
+      "Brilliant": 2000
+    },
+    "MaxConnectBase": {
+      "None": 0,
+      "Brilliant": 1
+    },
+    "ConnectLengthBase": {
+      "None": 0,
+      "Brilliant": 6
+    },
+    "UnitDeliveryBase": {
+      "None": 0,
+      "Brilliant": 120
+    },
+    "SendDelayBase": {
+      "None": -1,
+      "Brilliant": 4
+    },
+    "ProductionDelayBase": {
+      "None": -1,
+      "Brilliant": 4
+    },
+    "ThroughputBase": {
+      "None": 0,
+      "Brilliant": 0
+    }
+  }
+}
