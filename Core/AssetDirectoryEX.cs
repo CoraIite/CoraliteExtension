@@ -12,6 +12,7 @@
         public const string FlyingShieldPlusItems = Items + "FlyingShieldPlus/";
         public const string MysteryGelItems = Items + "MysteryGel/";
         public const string MagikeItems = Items + "Magike/";
+        public const string ClickerItems = Items + "Clickers/";
 
         public const string Particles = Assets + "Particles/";
 

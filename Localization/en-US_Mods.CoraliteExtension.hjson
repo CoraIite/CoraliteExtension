@@ -83,6 +83,11 @@ Items: {
 		DisplayName: Wood Wax
 		Tooltip: ""
 	}
+
+	IcicleClicker: {
+		DisplayName: Icicle Clicker
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -123,5 +128,12 @@ MagikeSystem: {
 		SendDelayBase: Mods.CoraliteExtension.MagikeSystem.UpgradableProps.SendDelayBase
 		ProductionDelayBase: Mods.CoraliteExtension.MagikeSystem.UpgradableProps.ProductionDelayBase
 		ThroughputBase: Mods.CoraliteExtension.MagikeSystem.UpgradableProps.ThroughputBase
+	}
+}
+
+ClickEffect: {
+	IcicleEffect: {
+		Name: Icicle Effect
+		Description: $Mods.ClickerClass.Common.Unknown
 	}
 }
