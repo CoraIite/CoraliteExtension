@@ -88,6 +88,26 @@ Items: {
 		DisplayName: Icicle Clicker
 		Tooltip: ""
 	}
+
+	RedJadeClicker: {
+		DisplayName: Red Jade Clicker
+		Tooltip: ""
+	}
+
+	ThunderClicker: {
+		DisplayName: Thunder Clicker
+		Tooltip: ""
+	}
+
+	EmperorClicker: {
+		DisplayName: Emperor Clicker
+		Tooltip: ""
+	}
+
+	GlistentClicker: {
+		DisplayName: Glistent Clicker
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -108,12 +128,20 @@ Projectiles: {
 	SunsetHeldProj.DisplayName: Sunset Held Proj
 	WoodWaxBullet.DisplayName: Wood Wax Bullet
 	WoodWaxHeldProj.DisplayName: Wood Wax Held Proj
+	ThunderClickerProj.DisplayName: Thunder Clicker Proj
+	GelChaserClicker.DisplayName: Gel Chaser Clicker
+	GlistentClickerProj.DisplayName: Glistent Clicker Proj
 }
 
 Buffs: {
 	EsotericGuardianBuff: {
 		DisplayName: Uncharted Daemon
 		Description: The Guardians of the Realm fight for you
+	}
+
+	GlistentClickerDebuff: {
+		DisplayName: Glistent Clicker Debuff
+		Description: Mods.CoraliteExtension.Buffs.GlistentClickerDebuff.Description
 	}
 }
 
@@ -134,6 +162,26 @@ MagikeSystem: {
 ClickEffect: {
 	IcicleEffect: {
 		Name: Icicle Effect
+		Description: $Mods.ClickerClass.Common.Unknown
+	}
+
+	RedJadeEffect: {
+		Name: Red Jade Effect
+		Description: $Mods.ClickerClass.Common.Unknown
+	}
+
+	ThunderEffect: {
+		Name: Thunder Effect
+		Description: $Mods.ClickerClass.Common.Unknown
+	}
+
+	EmperorEffect: {
+		Name: Emperor Effect
+		Description: $Mods.ClickerClass.Common.Unknown
+	}
+
+	GlistentEffect: {
+		Name: Glistent Effect
 		Description: $Mods.ClickerClass.Common.Unknown
 	}
 }

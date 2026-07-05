@@ -3,3 +3,4 @@ author = 瓶中微光
 version = 0.21
 modReferences = Coralite,InnoVault
 sortAfter = Coralite,InnoVault,DDmod,ClickerClass
+buildIgnore = MysteryFiles/*,.claude/*

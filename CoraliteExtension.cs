@@ -1,6 +1,8 @@
 global using Particle = InnoVault.PRT.BasePRT;
+global using Terraria;
+global using Microsoft.Xna.Framework;
+
 using Coralite;
-using Coralite.Core;
 using CoraliteExtension.Core;
 using Terraria.ModLoader;
 

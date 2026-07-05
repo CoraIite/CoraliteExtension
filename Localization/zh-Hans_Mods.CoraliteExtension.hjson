@@ -84,6 +84,26 @@ Items: {
 		DisplayName: 冰晶点击器
 		Tooltip: "{$Mods.ClickerClass.Common.Tooltips.Clicker}"
 	}
+
+	RedJadeClicker: {
+		DisplayName: 赤玉点击器
+		Tooltip: "{$Mods.ClickerClass.Common.Tooltips.Clicker}"
+	}
+
+	ThunderClicker: {
+		DisplayName: 电击器
+		Tooltip: "{$Mods.ClickerClass.Common.Tooltips.Clicker}"
+	}
+
+	EmperorClicker: {
+		DisplayName: 凝胶圣杯
+		Tooltip: "{$Mods.ClickerClass.Common.Tooltips.Clicker}"
+	}
+
+	GlistentClicker: {
+		DisplayName: 晶莹点击器
+		Tooltip: "{$Mods.ClickerClass.Common.Tooltips.Clicker}"
+	}
 }
 
 Projectiles: {
@@ -104,12 +124,20 @@ Projectiles: {
 	SunsetHeldProj.DisplayName: 落日
 	WoodWaxBullet.DisplayName: 木蜡球
 	WoodWaxHeldProj.DisplayName: 木蜡
+	ThunderClickerProj.DisplayName: 电击
+	GelChaserClicker.DisplayName: 追踪凝胶球
+	GlistentClickerProj.DisplayName: 晶莹绽放
 }
 
 Buffs: {
 	EsotericGuardianBuff: {
 		DisplayName: 秘境守护程序
 		Description: 秘境的守护者为你而战
+	}
+
+	GlistentClickerDebuff: {
+		DisplayName: 晶莹印记
+		Description: 受到点击伤害后产生晶莹绽放
 	}
 }
 
@@ -130,6 +158,30 @@ MagikeSystem: {
 ClickEffect: {
 	IcicleEffect: {
 		Name: 冰锥
-		Description: 生成{0}个冰锥落下，冰锥伤害倍率{1}%
+		Description: 生成 {0} 个伤害倍为率 {1}% 的冰锥落下
+	}
+
+	RedJadeEffect: {
+		Name: 赤玉爆炸
+		Description: "{0}% 概率生成一个伤害倍率为 {1}% 的赤玉爆炸"
+	}
+
+	ThunderEffect: {
+		Name: 电击
+		Description: 指针距离目标较近时生成一道闪电攻击
+	}
+
+	EmperorEffect: {
+		Name: 帝凝胶
+		Description: 生成 {0} 个伤害倍率为 {1}% 的追踪凝胶球
+	}
+
+	GlistentEffect: {
+		Name: 晶莹
+		Description:
+			'''
+			产生一个伤害倍率为 {0} 的晶莹绽放同时给予目标晶莹标记
+			点击带有晶莹标记的目标额外造成一次晶莹绽放
+			'''
 	}
 }
