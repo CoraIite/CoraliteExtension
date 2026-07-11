@@ -9,20 +9,14 @@ using Terraria.ModLoader;
 
 namespace CoraliteExtension.Content.Items.Clickers
 {
-    public class IcicleClicker() : BaseClickerWeapon(2.8f, Coralite.Coralite.IcicleCyan, DustID.ApprenticeStorm, 7)
+    public class IcicleClicker() : BaseClickerWeapon(2.8f, Coralite.Coralite.IcicleCyan, DustID.ApprenticeStorm, 17)
     {
         public override string Texture => AssetDirectoryEX.ClickerItems + Name;
 
         public static readonly int IcicleAmount = 3;
-        public static readonly int DamageRatioPercent = 50;
+        public static readonly int DamageRatioPercent = 125;
 
         public static string IcicleEffect { get; private set; } = string.Empty;
-
-        //Optional, if you only want this item to exist only when Clicker Class is enabled
-        public override bool IsLoadingEnabled(Mod mod)
-        {
-            return ClickerCompat.ClickerClass != null;
-        }
 
         public override void SetOtherStaticDefaults()
         {

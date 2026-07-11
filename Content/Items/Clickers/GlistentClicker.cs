@@ -10,11 +10,11 @@ using Terraria.ModLoader;
 
 namespace CoraliteExtension.Content.Items.Clickers
 {
-    public class GlistentClicker() : BaseClickerWeapon(2.6f, Coralite.Coralite.GlistentGreen, DustID.GemEmerald, 7)
+    public class GlistentClicker() : BaseClickerWeapon(2.6f, Coralite.Coralite.GlistentGreen, DustID.GemEmerald, 12)
     {
         public override string Texture => AssetDirectoryEX.ClickerItems + Name;
 
-        public static readonly int DamageRatioPercent = 75;
+        public static readonly int DamageRatioPercent = 150;
 
         public static string GlistentEffect { get; private set; } = string.Empty;
 
@@ -96,9 +96,9 @@ namespace CoraliteExtension.Content.Items.Clickers
         {
             if (ClickerCompat.ClickerClass != null && npc.HasBuff<GlistentClickerDebuff>() && projectile.DamageType.CountsAsClass(ContentSamples.ItemsByType[ModContent.ItemType<GlistentClicker>()].DamageType) && projectile.type != ModContent.ProjectileType<GlistentClickerProj>())
             {
-                int damage = hit.Damage / 2;
-                if (damage > 20)
-                    damage = 20;
+                int damage = hit.Damage;
+                if (damage > 24)
+                    damage = 24;
 
                 npc.DelBuff(npc.FindBuffIndex(ModContent.BuffType<GlistentClickerDebuff>()));
                 Projectile.NewProjectile(Main.LocalPlayer.GetSource_FromThis(), npc.Center, Vector2.Zero,

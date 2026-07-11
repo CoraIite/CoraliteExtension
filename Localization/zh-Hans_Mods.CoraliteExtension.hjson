@@ -104,6 +104,11 @@ Items: {
 		DisplayName: 晶莹点击器
 		Tooltip: "{$Mods.ClickerClass.Common.Tooltips.Clicker}"
 	}
+
+	MagicCrystalClicker: {
+		DisplayName: 魔力晶体点击器
+		Tooltip: "{$Mods.ClickerClass.Common.Tooltips.Clicker}"
+	}
 }
 
 Projectiles: {

@@ -3,7 +3,6 @@ using Coralite.Content.Items.Thunder;
 using Coralite.Core;
 using Coralite.Helpers;
 using CoraliteExtension.Content.Compats;
-using CoraliteExtension.Core;
 using InnoVault;
 using InnoVault.PRT;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,27 +11,28 @@ using System;
 using System.Collections.Generic;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 namespace CoraliteExtension.Content.Items.Clickers
 {
-    public class ThunderClicker() : BaseClickerWeapon(5.5f, Coralite.Coralite.ThunderveinYellow, DustID.YellowTorch, 52)
+    public class ThunderClicker() : BaseClickerWeapon(5.5f, Coralite.Coralite.ThunderveinYellow, DustID.YellowTorch, 51)
     {
         public static string ThunderEffect { get; private set; } = string.Empty;
+        public static readonly int DamageRatioPercent = 150;
 
         public override void SetOtherStaticDefaults()
         {
             string uniqueName = ClickerCompat.RegisterClickEffect(Mod, nameof(ThunderEffect), 10, Coralite.Coralite.ThunderveinYellow,
                 delegate (Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, int type, int damage, float knockBack)
                 {
-                    if (Helper.TryFindClosestEnemy(position, 400, n => n.CanBeChasedBy() && Collision.CanHit(position, 1, 1, n.Center, 1, 1), out NPC target))
+                    if (Helper.TryFindClosestEnemy(position, 400, n => n.CanBeChasedBy() && (Collision.CanHit(position, 1, 1, n.Center, 1, 1)||n.getRect().Contains(Main.MouseWorld.ToPoint())), out NPC target))
                     {
                         Projectile.NewProjectile(source, position, target.Center,
-                            ProjectileType<ThunderClickerProj>(), damage, 0, Main.myPlayer, 30, target.whoAmI);
+                            ProjectileType<ThunderClickerProj>(), (int)(damage * DamageRatioPercent / 100f), 0, Main.myPlayer, 30, target.whoAmI);
                     }
                 },
-            preHardMode: false);
+            preHardMode: false,
+            descriptionArgs: [DamageRatioPercent]);
 
             ThunderEffect = uniqueName;
         }
@@ -77,7 +77,7 @@ namespace CoraliteExtension.Content.Items.Clickers
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
             Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 11;
+            Projectile.idStaticNPCHitCooldown = 14;
         }
 
         public override bool? CanDamage()
@@ -91,7 +91,7 @@ namespace CoraliteExtension.Content.Items.Clickers
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float a = 0;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.velocity, Projectile.Center, Projectile.width, ref a);
+            return targetHitbox .Intersects(projHitbox)|| Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.velocity, Projectile.Center, Projectile.width, ref a);
         }
 
         public override float ThunderWidthFunc_Sin(float factor)

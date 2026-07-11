@@ -2,17 +2,16 @@ using Coralite.Content.Items.Icicle;
 using Coralite.Content.Items.RedJades;
 using Coralite.Helpers;
 using CoraliteExtension.Content.Compats;
-using CoraliteExtension.Core;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CoraliteExtension.Content.Items.Clickers
 {
-    public class RedJadeClicker() : BaseClickerWeapon(1.8f, Coralite.Coralite.RedJadeRed, DustID.GemRuby, 5)
+    public class RedJadeClicker() : BaseClickerWeapon(1.8f, Coralite.Coralite.RedJadeRed, DustID.GemRuby, 11)
     {
         public static readonly int ExplodeChance = 50;
-        public static readonly int DamagePercent = 75;
+        public static readonly int DamagePercent = 150;
 
         public static string RedJadeEffect { get; private set; } = string.Empty;
 

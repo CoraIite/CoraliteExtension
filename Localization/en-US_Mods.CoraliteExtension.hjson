@@ -108,6 +108,11 @@ Items: {
 		DisplayName: Glistent Clicker
 		Tooltip: ""
 	}
+
+	MagicCrystalClicker: {
+		DisplayName: Magic Crystal Clicker
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

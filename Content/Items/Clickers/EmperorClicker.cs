@@ -8,10 +8,10 @@ using Terraria.ModLoader;
 
 namespace CoraliteExtension.Content.Items.Clickers
 {
-    public class EmperorClicker() : BaseClickerWeapon(3.2f, Color.SkyBlue, DustID.Water, 9)
+    public class EmperorClicker() : BaseClickerWeapon(3.2f, Color.SkyBlue, DustID.Water, 21)
     {
         public static readonly int GelBallAmount = 4;
-        public static readonly int DamageRatioPercent = 50;
+        public static readonly int DamageRatioPercent = 100;
 
         public static string EmperorEffect { get; private set; } = string.Empty;
 
