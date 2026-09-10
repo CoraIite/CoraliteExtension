@@ -113,6 +113,11 @@ Items: {
 		DisplayName: Magic Crystal Clicker
 		Tooltip: ""
 	}
+
+	Puravirgo: {
+		DisplayName: Puravirgo
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -136,6 +141,9 @@ Projectiles: {
 	ThunderClickerProj.DisplayName: Thunder Clicker Proj
 	GelChaserClicker.DisplayName: Gel Chaser Clicker
 	GlistentClickerProj.DisplayName: Glistent Clicker Proj
+	PuravirgoBullet.DisplayName: Puravirgo Bullet
+	PuravirgoFeather.DisplayName: Puravirgo Feather
+	PuravirgoHeldProj.DisplayName: Puravirgo Held Proj
 }
 
 Buffs: {

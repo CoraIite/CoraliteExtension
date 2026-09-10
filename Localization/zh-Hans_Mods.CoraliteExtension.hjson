@@ -109,6 +109,11 @@ Items: {
 		DisplayName: 魔力晶体点击器
 		Tooltip: "{$Mods.ClickerClass.Common.Tooltips.Clicker}"
 	}
+
+	Puravirgo: {
+		DisplayName: 星羽 - 净世
+		Tooltip: 将子弹转化为星云羽毛弹
+	}
 }
 
 Projectiles: {
@@ -132,6 +137,9 @@ Projectiles: {
 	ThunderClickerProj.DisplayName: 电击
 	GelChaserClicker.DisplayName: 追踪凝胶球
 	GlistentClickerProj.DisplayName: 晶莹绽放
+	// PuravirgoBullet.DisplayName: Puravirgo Bullet
+	// PuravirgoFeather.DisplayName: Puravirgo Feather
+	// PuravirgoHeldProj.DisplayName: Puravirgo Held Proj
 }
 
 Buffs: {
