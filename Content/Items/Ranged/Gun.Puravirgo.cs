@@ -57,7 +57,7 @@ namespace CoraliteExtension.Content.Items.Ranged
         }
     }
 
-    public class PuravirgoHeldProj() : BaseGunHeldProj(0.25f, 16, -8, AssetDirectoryEX.RangedItems)
+    public class PuravirgoHeldProj() : BaseGunHeldProj(0.25f, 20, -8, AssetDirectoryEX.RangedItems)
     {
         protected override float HeldPositionY => -6;
 
