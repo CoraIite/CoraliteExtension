@@ -25,7 +25,6 @@ namespace CoraliteExtension.Content.Items.FlyingShield
         {
             return item.type switch
             {
-                ItemID.EoCShield => true,
                 ItemID.CobaltShield => true,
                 _ => base.CanRightClick(item),
             };
@@ -42,10 +41,6 @@ namespace CoraliteExtension.Content.Items.FlyingShield
             switch (item.type)
             {
                 default:
-                    break;
-                case ItemID.EoCShield:
-                    item.SetDefaults(ModContent.ItemType<CthulhuFlyingShield>());
-                    item.stack = 2;
                     break;
                 case ItemID.CobaltShield:
                     item.SetDefaults(ModContent.ItemType<CobaltFlyingShield>());

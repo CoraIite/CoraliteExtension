@@ -17,8 +17,6 @@ namespace CoraliteExtension.Content.ModPlayers
 
         public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
         {
-            if (HasEffect(nameof(CthulhuFlyingShield)))
-                drawInfo.drawPlayer.shield = 5;
             if (HasEffect(nameof(CobaltFlyingShield)))
                 drawInfo.drawPlayer.shield = 1;
         }
